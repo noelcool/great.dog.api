@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import great.dog.api.domain.entity.Dog;
+import great.dog.api.domain.entity.DogDisease;
+import great.dog.api.domain.entity.User;
 import great.dog.api.service.TestService;
 import lombok.AllArgsConstructor;
 
@@ -22,9 +24,13 @@ public class TestController {
 		return "test";
 	}
 	
+	
 	@GetMapping("/dogs")
 	public void getDogs() {
-		List<Dog> oDogs = testService.findAll();
+//		List<Dog> oDogs = testService.findDog();
+		testService.findDog2();
+		List<User> oUsers = testService.findUser();
+		List<DogDisease> oDogDisease = testService.findDogDisease();
 		System.out.println("test");
 	}
 	

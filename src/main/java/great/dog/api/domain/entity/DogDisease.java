@@ -2,7 +2,6 @@ package great.dog.api.domain.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,15 +19,12 @@ public class DogDisease extends BaseEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="dog_id", insertable = false, updatable = false)
-	private Dog dogs;
+	private Dog dog;
 
-	@Column(name = "disease_name")
 	private String diseaseName;
 	
-	@Column(name = "disease_region")
 	private String diseaseRegion;
 	
-	@Column(name = "disease_comment")
 	private String diseaseComment;
 	
 }

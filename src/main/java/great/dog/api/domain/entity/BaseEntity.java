@@ -29,21 +29,18 @@ public abstract class BaseEntity implements Serializable { //객체 직렬화
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id", updatable = false, nullable = false, insertable=false, columnDefinition = "INT(10) unsigned")
+	@Column(name="id", updatable = false, nullable = false, insertable=false)
 	private Long id;
 	
-	@Column(name="del_yn")
 	@ColumnDefault(value = "'N'")
 	private String delYn;
 	
 	@CreatedDate
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name ="create_timestamp")
 	private Timestamp createTimestamp;
 	
 	@LastModifiedDate
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	@Column(name="update_timestamp")
 	private Timestamp updateTimestamp;
 
 }

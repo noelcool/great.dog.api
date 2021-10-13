@@ -2,7 +2,6 @@ package great.dog.api.domain.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +19,10 @@ public class DogCondition extends BaseEntity implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="dog_id", insertable = false, updatable = false)
-	private Dog dogs;
+	private Dog dog;
 	
-	@Column(name="weight")
 	private Float weight;
 	
-	@Column(name="height")
 	private Float height;
 	
 
