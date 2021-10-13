@@ -25,9 +25,7 @@ public class TestController {
 	@GetMapping("/dogs")
 	public void getDogs() {
 		List<Dog> oDogs = testService.findAll();
-		for (Dog d : oDogs) {
-			System.out.println(d.getDogName());
-		}
+		System.out.println("test");
 	}
 	
 	

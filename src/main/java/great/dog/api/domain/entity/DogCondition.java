@@ -19,8 +19,8 @@ public class DogCondition extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1164298676924406063L;
 	
 	@ManyToOne
-	@JoinColumn(name="dog_id")
-	private Dog dog;
+	@JoinColumn(name="dog_id", insertable = false, updatable = false)
+	private Dog dogs;
 	
 	@Column(name="weight")
 	private Float weight;

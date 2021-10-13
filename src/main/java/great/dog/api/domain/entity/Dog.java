@@ -1,6 +1,7 @@
 package great.dog.api.domain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,10 +35,12 @@ public class Dog extends BaseEntity implements Serializable {
 	@Column(name="breed")
 	private String breed;
 	
-	@OneToMany(mappedBy="dog")
+	@OneToMany
+	@JoinColumn(name = "dogs")
 	private List<DogCondition> dogConditions;
 	
-	@OneToMany(mappedBy="dog")
+	@OneToMany
+	@JoinColumn(name = "dogs")
 	private List<DogDisease> dogDiseases;
 
 }
