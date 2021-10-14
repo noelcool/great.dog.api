@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import great.dog.api.domain.entity.Dog;
 import great.dog.api.domain.entity.DogDisease;
 import great.dog.api.domain.entity.User;
 import great.dog.api.service.TestService;

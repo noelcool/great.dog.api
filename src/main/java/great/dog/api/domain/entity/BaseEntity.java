@@ -32,7 +32,7 @@ public abstract class BaseEntity implements Serializable { //객체 직렬화
 	@Column(name="id", updatable = false, nullable = false, insertable=false)
 	private Long id;
 	
-	@ColumnDefault(value = "'N'")
+	@ColumnDefault(value = "'N'") // table create 시 기본값
 	private String delYn;
 	
 	@CreatedDate

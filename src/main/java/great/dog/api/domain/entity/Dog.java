@@ -3,7 +3,6 @@ package great.dog.api.domain.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,5 +38,9 @@ public class Dog extends BaseEntity implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "dog_id")
 	private List<DogDisease> dogDiseases;
+	
+	@OneToMany
+	@JoinColumn(name = "dog_id")
+	private List<Feeding> feeding;
 
 }

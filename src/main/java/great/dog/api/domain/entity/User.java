@@ -11,13 +11,17 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @Entity
 @Table(name = "user")
-@DynamicUpdate @DynamicInsert
+@DynamicUpdate // update 시 null 인 필드 제외
+@DynamicInsert // insert 시 null 인 필드 제외
+@NoArgsConstructor
 public class User extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -8161352668492942511L;
@@ -32,5 +36,12 @@ public class User extends BaseEntity implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	private List<Dog> dogs;
+	
+	@Builder
+	public User (String userName, String password, String nickName) {
+		this.userName = userName;
+		this.password = password;
+		this.nickName = nickName;
+	}
 
 }
