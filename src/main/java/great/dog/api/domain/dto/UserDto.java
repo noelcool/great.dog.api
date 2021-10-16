@@ -1,16 +1,18 @@
 package great.dog.api.domain.dto;
 
-import lombok.Getter;
+import great.dog.api.domain.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
-	
-	private String userName;
-	private String password;
-	private String password_re;
-	private String nickName;
+
+        private String userName;
+        private String password;
+        private String nickname;
 
 }

@@ -8,13 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter @Setter
 @Entity
@@ -38,7 +34,7 @@ public class User extends BaseEntity implements Serializable {
 	private List<Dog> dogs;
 	
 	@Builder
-	public User (String userName, String password, String nickName) {
+	public User(String userName, String password, String nickName) {
 		this.userName = userName;
 		this.password = password;
 		this.nickName = nickName;
