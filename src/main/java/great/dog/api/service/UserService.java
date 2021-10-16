@@ -42,17 +42,16 @@ public class UserService {
 		return user.map(value -> modelMapper.map(value, UserDto.class)).orElse(null);
 	}
 
-	public int update(Long id, UserRequest userRequest) {
-		Optional<User> user = userRepository.findById(id);
+	@Transactional
+	public int update(UserRequest dto) {
+		Optional<User> user = userRepository.findByUserNameAndDelYn(dto.getUserName(), "N");
 		if (!user.isPresent()) {
 			return -2;
 		}
 		user.ifPresent(u -> {
-			UserBuilder userBuilder = User.builder().
-					userName(userRequest.getUserName()).
-					password(userRequest.getPassword()).
-					nickName(userRequest.getNickName());
-			userRepository.save(userBuilder.build());
+			u.setPassword(dto.getPassword());
+			u.setNickName(dto.getNickName());
+			userRepository.save(u);
 		});
 		return 1;
 	}

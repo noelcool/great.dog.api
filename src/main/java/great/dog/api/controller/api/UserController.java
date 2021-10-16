@@ -52,9 +52,9 @@ public class UserController {
 					HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
-		int res= userService.update(id, dto);
+	@PutMapping("/")
+	public ResponseEntity update(@RequestBody UserRequest dto) {
+		int res= userService.update(dto);
 		return res == -2
 				?
 				new ResponseEntity(DefaultRes.res(
