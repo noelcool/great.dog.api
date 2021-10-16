@@ -13,4 +13,5 @@ public class StatusMsg {
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
     public static final String DB_ERROR = "데이터베이스 에러";
     public static final String RES_SUCCESS = "응답 성공";
+    public static final String DISCORD_PASSWORD = "암호 불일치";
 }
