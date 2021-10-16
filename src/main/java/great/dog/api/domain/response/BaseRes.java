@@ -1,25 +1,22 @@
 package great.dog.api.domain.response;
 
-import great.dog.api.util.Message;
+import great.dog.api.util.Status;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class BaseRes {
 
-	private String resCode;
+	private int resCode;
 	private String resMsg;
-	private int resResult;
-	
+
 	public BaseRes() {
-		this.resCode = Message.codeSuccess;
-		this.resMsg = Message.msgSuccess;
-		this.resResult = 0;
+		this.resCode = Status.StatusCode.OK;
+		this.resMsg = Status.ResponseMessage.RES_SUCCESS;
 	}
 	
-	public BaseRes(String resCode, String resMsg, int resResult) {
+	public BaseRes(int resCode, String resMsg) {
 		this.resCode = resCode;
 		this.resMsg = resMsg;
-		this.resResult = resResult;
 	}
 }

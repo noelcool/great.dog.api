@@ -43,4 +43,8 @@ public class Dog extends BaseEntity implements Serializable {
 	@JoinColumn(name = "dog_id")
 	private List<Feeding> feeding;
 
+	@OneToMany
+	@JoinColumn(name = "dog_id")
+	private List<Hospital> hospital;
+
 }

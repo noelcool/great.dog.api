@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Getter @Setter
 @Entity
 @Table(name = "feeding")
@@ -20,7 +22,8 @@ public class Feeding extends BaseEntity {
 	private Dog dog;
 	
 	private String type;
-	
+
+	private Timestamp feedingTimestamp;
 	
 
 }

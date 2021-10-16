@@ -2,6 +2,8 @@ package great.dog.api.controller.api;
 
 import java.util.Optional;
 
+import great.dog.api.domain.response.BaseRes;
+import great.dog.api.util.Status;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,12 +31,13 @@ public class UserController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> save(@RequestBody UserDto dto) {
+	public BaseRes save(@RequestBody UserDto dto) {
+		BaseRes baseRes = new BaseRes();
 		int res = userService.save(dto);
-//		if (baseRes.getResResult() != 0) {
-//			baseRes.setResCode(Message.codeFail);
-//		}
-//		return ResponseEntity.ok().body(baseRes);
-		return null;
+		if (res < 0) {
+			baseRes.setResCode(Status.StatusCode.BAD_REQUEST);
+			baseRes.setResMsg(Status.ResponseMessage.DUPLICAtEd_USER);
+		}
+		return baseRes;
 	}
 }
