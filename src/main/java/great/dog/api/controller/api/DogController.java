@@ -7,11 +7,11 @@ import great.dog.api.service.DogService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
-import org.aspectj.lang.annotation.DeclareWarning;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -19,6 +19,18 @@ import org.springframework.web.bind.annotation.*;
 public class DogController {
 
     private final DogService dogService;
+
+    @GetMapping("")
+    public ResponseEntity<?> findAll() {
+        DefaultRes defaultRes = new DefaultRes(StatusCode.NOT_FOUND, StatusMsg.NOT_FOUND_USER);
+        List<DogResponse> dog = dogService.findAll();
+        if (dog != null) {
+            defaultRes.setResCode(StatusCode.OK);
+            defaultRes.setResMsg(StatusMsg.READ_DOG);
+            defaultRes.setData(dog);
+        }
+        return new ResponseEntity(defaultRes, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
