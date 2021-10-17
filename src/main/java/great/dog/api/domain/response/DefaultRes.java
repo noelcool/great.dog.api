@@ -1,5 +1,7 @@
 package great.dog.api.domain.response;
 
+import great.dog.api.util.StatusCode;
+import great.dog.api.util.StatusMsg;
 import lombok.*;
 
 @Data
@@ -15,6 +17,12 @@ public class DefaultRes<T> {
 	public DefaultRes(final int resCode, final String resMsg) {
 		this.resCode = resCode;
 		this.resMsg = resMsg;
+		this.data = null;
+	}
+
+	public DefaultRes() {
+		this.resCode = StatusCode.OK;
+		this.resMsg = StatusMsg.RES_SUCCESS;
 		this.data = null;
 	}
 

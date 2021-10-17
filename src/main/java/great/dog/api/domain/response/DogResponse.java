@@ -7,8 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserResponse {
+public class DogResponse {
+
+    private UserResponse user;
     private String name;
-    private String password;
-    private String nickName;
+    private String type;
+
 }

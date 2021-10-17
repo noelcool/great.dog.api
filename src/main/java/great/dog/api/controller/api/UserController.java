@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/user")
 public class UserController {
 
 	private final UserService userService;
@@ -27,9 +27,9 @@ public class UserController {
 				StatusCode.OK, StatusMsg.READ_USER, user),
 				HttpStatus.OK)
 		:
-		new ResponseEntity(DefaultRes.res(
-				StatusCode.NOT_FOUND, StatusMsg.NOT_FOUND_USER, id),
-				HttpStatus.OK);
+			new ResponseEntity(DefaultRes.res(
+					StatusCode.NOT_FOUND, StatusMsg.NOT_FOUND_USER, id),
+					HttpStatus.OK);
 	}
 
 	@PostMapping("")
@@ -41,22 +41,20 @@ public class UserController {
 					StatusCode.UNAUTHORIZED, StatusMsg.DISCORD_PASSWORD, dto),
 					HttpStatus.OK)
 			:
-			res == -2
-					?
+				res == -2 ?
 					new ResponseEntity(DefaultRes.res(
 							StatusCode.UNAUTHORIZED, StatusMsg.DUPLICATED_USER, dto),
 							HttpStatus.OK)
-			:
-			new ResponseEntity(DefaultRes.res(
-					StatusCode.OK, StatusMsg.CREATED_USER, dto),
-					HttpStatus.OK);
+				:
+					new ResponseEntity(DefaultRes.res(
+							StatusCode.OK, StatusMsg.CREATED_USER, dto),
+							HttpStatus.OK);
 	}
 
 	@PutMapping("/")
 	public ResponseEntity update(@RequestBody UserRequest dto) {
 		int res= userService.update(dto);
-		return res == -2
-				?
+		return res == -2 ?
 				new ResponseEntity(DefaultRes.res(
 						StatusCode.UNAUTHORIZED, StatusMsg.NOT_FOUND_USER, dto),
 						HttpStatus.OK)

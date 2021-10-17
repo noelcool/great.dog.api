@@ -1,5 +1,6 @@
 package great.dog.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import great.dog.api.domain.dto.UserDto;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import great.dog.api.domain.request.UserRequest;
 import great.dog.api.domain.entity.User;
-import great.dog.api.domain.entity.User.UserBuilder;
 import great.dog.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,21 +20,9 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
-	
-	public int save(UserRequest dto) {
-		if (!dto.getPassword().equals(dto.getPassword_re())) {
-			return -1;
-		}
-		
-		if (userRepository.findByUserNameAndDelYn(dto.getUserName(), "N").isPresent()) {
-			return -2;
-		}
-		
-		UserBuilder userBuilder = User.builder().
-				userName(dto.getUserName()).
-				password(dto.getPassword()).
-				nickName(dto.getNickName());
-		return userRepository.save(userBuilder.build()) != null ? 1 : 0; //great.dog.api.domain.entity.User@3a2749e0
+
+	public List<User> findAll() {
+		return userRepository.findAll();
 	}
 
 	public UserDto findById(Long id) {
@@ -42,9 +30,21 @@ public class UserService {
 		return user.map(value -> modelMapper.map(value, UserDto.class)).orElse(null);
 	}
 
+	public int save(UserRequest dto) {
+		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
+
+		if (userRepository.findByNameAndDelYn(dto.getName(), "N").isPresent()) return -2;
+
+		User.UserBuilder userBuilder = User.builder().
+				name(dto.getName()).
+				password(dto.getPassword()).
+				nickName(dto.getNickName());
+		return userRepository.save(userBuilder.build()) != null ? 1 : 0; //great.dog.api.domain.entity.User@3a2749e0
+	}
+
 	@Transactional
 	public int update(UserRequest dto) {
-		Optional<User> user = userRepository.findByUserNameAndDelYn(dto.getUserName(), "N");
+		Optional<User> user = userRepository.findByNameAndDelYn(dto.getName(), "N");
 		if (!user.isPresent()) {
 			return -2;
 		}

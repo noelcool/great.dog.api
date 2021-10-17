@@ -22,7 +22,7 @@ public class User extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -8161352668492942511L;
 
-	private String userName;
+	private String name;
 	
 	private String password;
 	
@@ -34,8 +34,8 @@ public class User extends BaseEntity implements Serializable {
 	private List<Dog> dogs;
 	
 	@Builder
-	public User(String userName, String password, String nickName) {
-		this.userName = userName;
+	public User(String name, String password, String nickName) {
+		this.name = name;
 		this.password = password;
 		this.nickName = nickName;
 	}
