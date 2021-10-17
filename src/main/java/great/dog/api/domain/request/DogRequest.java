@@ -17,6 +17,7 @@ public class DogRequest {
     private String name;
     private String type;
     private Long userId;
+    private String delYn;
     private User user;
     private DogCondition dogCondition;
     private Feeding feeding;

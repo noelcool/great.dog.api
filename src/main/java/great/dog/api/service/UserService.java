@@ -2,6 +2,7 @@ package great.dog.api.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import great.dog.api.domain.response.UserResponse;
 import org.modelmapper.ModelMapper;
@@ -20,8 +21,9 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
 
-	public List<User> findAll() {
-		return userRepository.findAll();
+	public List<UserResponse> findAll() {
+		List<User> user = userRepository.findAll();
+		return user.stream().map(u -> modelMapper.map(u, UserResponse.class)).collect(Collectors.toList());
 	}
 
 	public UserResponse findById(Long id) {
@@ -31,9 +33,7 @@ public class UserService {
 
 	public int save(great.dog.api.domain.request.UserRequest dto) {
 		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
-
-		if (userRepository.findByNameAndDelYn(dto.getName(), "N").isPresent()) return -2;
-
+		if (userRepository.findByNameAndDelYn(dto.getName(), "N").isPresent()) return -1;
 		User.UserBuilder userBuilder = User.builder().
 				name(dto.getName()).
 				password(dto.getPassword()).
@@ -44,9 +44,8 @@ public class UserService {
 	@Transactional
 	public int update(great.dog.api.domain.request.UserRequest dto) {
 		Optional<User> user = userRepository.findByNameAndDelYn(dto.getName(), "N");
-		if (!user.isPresent()) {
-			return -2;
-		}
+		if (!user.isPresent()) return -1;
+
 		user.ifPresent(u -> {
 			u.setPassword(dto.getPassword());
 			u.setNickName(dto.getNickName());

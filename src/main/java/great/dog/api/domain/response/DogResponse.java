@@ -9,8 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DogResponse {
 
-    private UserResponse user;
+    //private UserResponse user;
     private String name;
     private String type;
-
+    private Long userId;
 }

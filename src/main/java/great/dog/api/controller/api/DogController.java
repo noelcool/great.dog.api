@@ -22,11 +22,11 @@ public class DogController {
 
     @GetMapping("")
     public ResponseEntity<?> findAll() {
-        DefaultRes defaultRes = new DefaultRes(StatusCode.NOT_FOUND, StatusMsg.NOT_FOUND_USER);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
         List<DogResponse> dog = dogService.findAll();
         if (dog != null) {
             defaultRes.setResCode(StatusCode.OK);
-            defaultRes.setResMsg(StatusMsg.READ_DOG);
+            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
             defaultRes.setData(dog);
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
@@ -34,11 +34,11 @@ public class DogController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        DefaultRes defaultRes = new DefaultRes(StatusCode.NOT_FOUND, StatusMsg.NOT_FOUND_USER, id);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL, id);
         DogResponse dog = dogService.findById(id);
         if (dog != null) {
             defaultRes.setResCode(StatusCode.OK);
-            defaultRes.setResMsg(StatusMsg.READ_DOG);
+            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
             defaultRes.setData(dog);
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
@@ -47,23 +47,24 @@ public class DogController {
     @PostMapping("")
     public ResponseEntity save(@RequestBody DogRequest dto) {
         int result = dogService.save(dto);
-        DefaultRes defaultRes = new DefaultRes(StatusCode.OK, StatusMsg.CREATED_DOG, dto);
-
-        if (result == -1) {
-            defaultRes.setResCode(StatusCode.NOT_FOUND);
-            defaultRes.setResMsg(StatusMsg.OMIT_USER);
-        } else if (result == -2) {
-            defaultRes.setResCode(StatusCode.NOT_FOUND);
-            defaultRes.setResMsg(StatusMsg.NOT_FOUND_USER);
-        } else if (result == -3) {
-            defaultRes.setResCode(StatusCode.SERVICE_UNAVAILABLE);
-            defaultRes.setResMsg(StatusMsg.DUPLICATED_DOG);
-        } else {
-            defaultRes.setResCode(StatusCode.SERVICE_UNAVAILABLE);
-            defaultRes.setResMsg(StatusMsg.INTERNAL_SERVER_ERROR);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.CREATED_FAIL, dto);
+        if (result != 0) {
+            defaultRes.setResCode(StatusCode.OK);
+            defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
             return new ResponseEntity(defaultRes, HttpStatus.OK);
         }
+        return new ResponseEntity(defaultRes, HttpStatus.OK);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogRequest dto) {
+        int result = dogService.update(id, dto);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
+        if (result != 0) {
+            defaultRes.setResCode(StatusCode.OK);
+            defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
+            return new ResponseEntity(defaultRes, HttpStatus.OK);
+        }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
 

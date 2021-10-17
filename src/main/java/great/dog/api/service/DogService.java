@@ -33,7 +33,7 @@ public class DogService {
     }
 
     public DogResponse findById(Long id) {
-        Optional<Dog> dog = dogRepository.findById(id);
+        Optional<Dog> dog = dogRepository.findByIdAndDelYn(id, "N");
         return dog.map(value -> modelMapper.map(value, DogResponse.class)).orElse(null);
     }
 
@@ -43,10 +43,10 @@ public class DogService {
 
         Optional<User> oUser = userRepository.findById(dto.getUserId());
         // 사용자 없음
-        if (!oUser.isPresent()) return -2;
+        if (!oUser.isPresent()) return -1;
 
         // 사용자 + 애견 정보 있음
-        if (dogRepository.findByUserIdAndNameAndDelYn(dto.getUserId(), dto.getName(), "N").isPresent()) return -3;
+        if (dogRepository.findByUserIdAndNameAndDelYn(dto.getUserId(), dto.getName(), "N").isPresent()) return -0;
 
 //        modelMapper.typeMap(Item.class, Bill.class).addMappings(mapper -> {
 //        mapper.map(Item::getStock, Bill::setQty);
@@ -70,15 +70,14 @@ public class DogService {
     }
 
     @Transactional
-    public int update(DogRequest dto) {
-        Optional<Dog> dog = dogRepository.
-                findByUserIdAndNameAndDelYn(dto.getUserId(), dto.getName(), "N");
-        if (!dog.isPresent()) {
-            return -1;
-        }
+    public int update(Long id, DogRequest dto) {
+        Optional<Dog> dog = dogRepository.findById(id);
+        if (!dog.isPresent()) return -1;
+
         dog.ifPresent(d -> {
-            d.setName(dto.getName());
-            d.setType(dto.getType());
+            if (dto.getName() != null && !dto.getName().equals("")) d.setName(dto.getName());
+            if (dto.getType() != null && !dto.getType().equals("")) d.setType(dto.getType());
+            if (dto.getDelYn() != null && !dto.getType().equals("")) d.setDelYn(dto.getDelYn());
             dogRepository.save(d);
         });
         return 1;

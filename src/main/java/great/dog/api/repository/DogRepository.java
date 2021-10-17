@@ -13,4 +13,6 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     Optional<Dog> findByUserIdAndIdAndDelYn(Long userId, Long id, String string);
 
     Optional<Dog> findByUserIdAndNameAndDelYn(Long userId, String name, String string);
+
+    Optional<Dog> findByIdAndDelYn(Long id, String string);
 }
