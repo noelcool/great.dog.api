@@ -22,12 +22,33 @@ public class UserService {
 	private final ModelMapper modelMapper;
 
 	public List<UserResponse> findAll() {
-		List<User> user = userRepository.findAll();
-		return user.stream().map(u -> modelMapper.map(u, UserResponse.class)).collect(Collectors.toList());
+		List<User> users = userRepository.findAll();
+		users.forEach(user -> {
+			user.getDogs().forEach(dog -> {
+				dog.getId();
+			});
+		});
+		return users.stream().map(u -> modelMapper.map(u, UserResponse.class)).collect(Collectors.toList());
 	}
 
 	public UserResponse findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
+		user.ifPresent(u -> {
+			u.getDogs().forEach(dog -> {
+				dog.getDogConditions().forEach(dogCondition -> {
+					dogCondition.getId();
+				});
+				dog.getDogDiseases().forEach(dogDisease -> {
+					dogDisease.getId();
+				});
+				dog.getFeeding().forEach(feeding -> {
+					feeding.getId();
+				});
+				dog.getHospital().forEach(hospital -> {
+					hospital.getId();
+				});
+			});	
+		});
 		return user.map(value -> modelMapper.map(value, UserResponse.class)).orElse(null);
 	}
 
