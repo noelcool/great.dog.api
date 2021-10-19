@@ -10,12 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Getter @Setter
 @Entity
 @Table(name = "dog_feeding")
-public class DogFeeding extends BaseEntity {
+public class DogFeeding extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = -4222750668833189505L;
 

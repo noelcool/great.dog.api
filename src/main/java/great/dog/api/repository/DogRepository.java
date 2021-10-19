@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import great.dog.api.domain.entity.Dog;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DogRepository extends JpaRepository<Dog, Long> {
@@ -15,4 +16,6 @@ public interface DogRepository extends JpaRepository<Dog, Long> {
     Optional<Dog> findByUserIdAndNameAndDelYn(Long userId, String name, String string);
 
     Optional<Dog> findByIdAndDelYn(Long id, String string);
+
+    List<Dog> findByUserIdAndDelYn(Long id, String string);
 }

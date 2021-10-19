@@ -1,9 +1,13 @@
 package great.dog.api.controller.api;
 
+import great.dog.api.domain.entity.DogCondition;
+import great.dog.api.domain.request.DogConditionRequest;
 import great.dog.api.domain.request.DogRequest;
 import great.dog.api.domain.response.DefaultRes;
+import great.dog.api.domain.response.DogConditionResponse;
 import great.dog.api.domain.response.DogResponse;
-import great.dog.api.service.DogService;
+import great.dog.api.domain.response.UserResponse;
+import great.dog.api.service.DogConditionService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
 import lombok.AllArgsConstructor;
@@ -15,50 +19,38 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/dog")
-public class DogController {
+@RequestMapping("/v1/dog/condition")
+public class DogConditionController {
 
-    private final DogService dogService;
+    private final DogConditionService dogConditionService;
 
-//    @GetMapping("")
-//    public ResponseEntity<?> findAll() {
-//        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
-//        List<DogResponse> dog = dogService.findAll();
-//        if (dog != null) {
-//            defaultRes.setResCode(StatusCode.OK);
-//            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
-//            defaultRes.setData(dog);
-//        }
-//        return new ResponseEntity(defaultRes, HttpStatus.OK);
-//    }
+    @GetMapping("")
+    public ResponseEntity<?> findAll() {
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        List<DogConditionResponse> dogCondition = dogConditionService.findAll();
+        if (dogCondition != null) {
+            defaultRes.setResCode(StatusCode.OK);
+            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
+            defaultRes.setData(dogCondition);
+        }
+        return new ResponseEntity(defaultRes, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL, id);
-        DogResponse dog = dogService.findById(id);
-        if (dog != null) {
+        DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        DogConditionResponse res = dogConditionService.findById(id);
+        if (res != null) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
-            defaultRes.setData(dog);
+            defaultRes.setData(res);
         }
-        return new ResponseEntity(defaultRes, HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity<?> findByUserId(@PathVariable("id") Long id) {
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL, id);
-        List<DogResponse> dog = dogService.findByUserId(id);
-        if (dog != null) {
-            defaultRes.setResCode(StatusCode.OK);
-            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
-            defaultRes.setData(dog);
-        }
-        return new ResponseEntity(defaultRes, HttpStatus.OK);
+        return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogRequest dto) {
-        int result = dogService.save(dto);
+    public ResponseEntity save(@RequestBody DogConditionRequest dto) {
+        int result = dogConditionService.save(dto);
         DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.CREATED_FAIL, dto);
         if (result != 0) {
             defaultRes.setResCode(StatusCode.OK);
@@ -69,8 +61,8 @@ public class DogController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogRequest dto) {
-        int result = dogService.update(id, dto);
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogConditionRequest dto) {
+        int result = dogConditionService.update(id, dto);
         DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
         if (result != 0) {
             defaultRes.setResCode(StatusCode.OK);
@@ -79,7 +71,4 @@ public class DogController {
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
-
-
 }
-
