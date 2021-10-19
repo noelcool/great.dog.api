@@ -1,8 +1,8 @@
 package great.dog.api.domain.request;
 
 import great.dog.api.domain.entity.DogCondition;
-import great.dog.api.domain.entity.Feeding;
-import great.dog.api.domain.entity.Hospital;
+import great.dog.api.domain.entity.DogFeeding;
+import great.dog.api.domain.entity.DogHospital;
 import great.dog.api.domain.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class DogRequest {
     private String delYn;
     private User user;
     private DogCondition dogCondition;
-    private Feeding feeding;
-    private Hospital hospital;
+    private DogFeeding feeding;
+    private DogHospital hospital;
 
 }

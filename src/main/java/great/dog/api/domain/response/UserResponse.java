@@ -14,5 +14,5 @@ public class UserResponse {
     private String name;
     private String password;
     private String nickName;
-    private List<Dog> dogs;
+    //private List<Dog> dogs;
 }

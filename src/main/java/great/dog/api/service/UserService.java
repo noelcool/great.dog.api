@@ -33,6 +33,7 @@ public class UserService {
 
 	public UserResponse findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
+/*
 		user.ifPresent(u -> {
 			u.getDogs().forEach(dog -> {
 				dog.getDogConditions().forEach(dogCondition -> {
@@ -49,6 +50,7 @@ public class UserService {
 				});
 			});	
 		});
+*/
 		return user.map(value -> modelMapper.map(value, UserResponse.class)).orElse(null);
 	}
 

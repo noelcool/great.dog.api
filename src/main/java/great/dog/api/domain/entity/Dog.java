@@ -48,11 +48,11 @@ public class Dog extends BaseEntity implements Serializable {
 	
 	@OneToMany
 	@JoinColumn(name = "dog_id")
-	private List<Feeding> feeding;
+	private List<DogFeeding> feeding;
 
 	@OneToMany
 	@JoinColumn(name = "dog_id")
-	private List<Hospital> hospital;
+	private List<DogHospital> hospital;
 
 	@Builder
 	public Dog(String name, String type, User user) {
