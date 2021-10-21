@@ -22,7 +22,7 @@ public class DogConditionController {
 
     @GetMapping("")
     public ResponseEntity<?> findAll() {
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        DefaultRes defaultRes = new DefaultRes();
         List<DogConditionResponse> dogCondition = dogConditionService.findAll();
         if (dogCondition != null) {
             defaultRes.setResCode(StatusCode.OK);
@@ -34,7 +34,7 @@ public class DogConditionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        DefaultRes<Object> defaultRes = new DefaultRes<Object>();
         DogConditionResponse res = dogConditionService.findById(id);
         if (res != null) {
             defaultRes.setResCode(StatusCode.OK);
@@ -46,7 +46,8 @@ public class DogConditionController {
 
     @GetMapping("/dog/{dogId}")
     public ResponseEntity<?> findByUserId(@PathVariable("dogId") Long dogId) {
-        DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        DefaultRes<Object> defaultRes = new DefaultRes<Object>();
+
         List<DogConditionResponse> res = dogConditionService.findByDogId(dogId);
         if (res != null) {
             defaultRes.setResCode(StatusCode.OK);
@@ -59,7 +60,7 @@ public class DogConditionController {
     @PostMapping("")
     public ResponseEntity save(@RequestBody DogConditionRequest dto) {
         int result = dogConditionService.save(dto);
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.CREATED_FAIL, dto);
+        DefaultRes defaultRes = new DefaultRes(dto);
         if (result != 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);

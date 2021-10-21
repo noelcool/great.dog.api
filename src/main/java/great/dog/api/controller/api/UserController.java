@@ -23,7 +23,7 @@ public class UserController {
 
 	@GetMapping("")
 	public ResponseEntity<?> findAll() {
-		DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+		DefaultRes<Object> defaultRes = new DefaultRes<Object>();
 		List<UserResponse> user = userService.findAll();
 		if (user != null) {
 			defaultRes.setResCode(StatusCode.OK);
@@ -35,7 +35,7 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-		DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+		DefaultRes<Object> defaultRes = new DefaultRes<Object>();
 		UserResponse user = userService.findById(id);
 		if (user != null) {
 			defaultRes.setResCode(StatusCode.OK);
@@ -47,7 +47,7 @@ public class UserController {
 
 	@PostMapping("/{id}")
 	public ResponseEntity<DefaultRes<?>> save(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
-		DefaultRes<?> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+		DefaultRes<?> defaultRes = new DefaultRes<Object>();
 		int result = userService.save(id, dto);
 		if (result != 0) {
 			defaultRes.setResCode(StatusCode.OK);
@@ -59,7 +59,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
-		DefaultRes<?> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+		DefaultRes<?> defaultRes = new DefaultRes<Object>();
 		int result = userService.update(id, dto);
 		if (result != 0) {
 			defaultRes.setResCode(StatusCode.OK);

@@ -20,9 +20,15 @@ public class DefaultRes<T> {
 		this.data = null;
 	}
 
+	public DefaultRes(final T t) {
+		this.resCode = StatusCode.BAD_REQUEST;
+		this.resMsg = StatusMsg.RES_FAIL;
+		this.data = t;
+	}
+
 	public DefaultRes() {
-		this.resCode = StatusCode.OK;
-		this.resMsg = StatusMsg.RES_SUCCESS;
+		this.resCode = StatusCode.BAD_REQUEST;
+		this.resMsg = StatusMsg.RES_FAIL;
 		this.data = null;
 	}
 
