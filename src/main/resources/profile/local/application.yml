@@ -1,4 +1,5 @@
 spring:
+  version: '@project.version@'
   application:
     name: great-dogs
   profiles:
@@ -53,18 +54,19 @@ logging:
 springdoc:
   api-docs:
     path: /api-docs
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
+  default-consumes-media-type: application/json # request media type의 기본 값
+  default-produces-media-type: application/json # response media type의 기본 값
   swagger-ui:
-    operations-sorter: alpha
-    tags-sorter: alpha
-    disable-swagger-default-url: true
-    oauth2-redirect-url: /oauth2-redirect.html
+    operations-sorter: alpha # 순서 - alpha - 오름차순, method - http method 순
+    tags-sorter: alpha # 태그 정렬 기준
+    disable-swagger-default-url: true # swagger-ui default url인 petstore html 문서 비활성화 여부(1.4.1부터 지원)
+    display-query-params-without-oauth2: true # json화 된 config 파일 대신 파라미터를 이용하여 swagger-ui에 접근하도록 한다
+    #oauth2-redirect-url: /oauth2-redirect.html
     oauth:
       app-name: great-dogs
       #client-id: 
       #client-secret: 
       use-pkce-with-authorization-code-grant: true
       use-basic-authentication-with-access-code-grant: true
-  paths-to-match:
-  - /api/**
+  paths-to-match: # openapi3로 문서화할 api path 리스트
+  - /v1/**

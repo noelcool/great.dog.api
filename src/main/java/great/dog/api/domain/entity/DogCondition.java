@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,10 +24,14 @@ public class DogCondition extends BaseEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="dog_id", insertable = false, updatable = false)
 	private Dog dog;
-	
 	private Float weight;
-	
 	private Float height;
-	
+
+	@Builder
+	private DogCondition(Float weight, Float height, Dog dog) {
+		this.weight = weight;
+		this.height = height;
+		this.dog = dog;
+	}
 
 }

@@ -6,6 +6,8 @@ import great.dog.api.domain.response.DogResponse;
 import great.dog.api.service.DogService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Tag(name = "dog", description ="dog")
 @RequestMapping("/v1/dog")
 public class DogController {
 
@@ -32,7 +35,9 @@ public class DogController {
 //        return new ResponseEntity(defaultRes, HttpStatus.OK);
 //    }
 
+
     @GetMapping("/{id}")
+    @Operation(summary = "dog 테이블에서 각 개별 dog 정보를 받아온다")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL, id);
         DogResponse dog = dogService.findById(id);

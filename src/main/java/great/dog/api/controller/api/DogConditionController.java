@@ -1,12 +1,8 @@
 package great.dog.api.controller.api;
 
-import great.dog.api.domain.entity.DogCondition;
 import great.dog.api.domain.request.DogConditionRequest;
-import great.dog.api.domain.request.DogRequest;
 import great.dog.api.domain.response.DefaultRes;
 import great.dog.api.domain.response.DogConditionResponse;
-import great.dog.api.domain.response.DogResponse;
-import great.dog.api.domain.response.UserResponse;
 import great.dog.api.service.DogConditionService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
@@ -19,7 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/dog/condition")
+@RequestMapping("/v1/dogCondition")
 public class DogConditionController {
 
     private final DogConditionService dogConditionService;
@@ -40,6 +36,18 @@ public class DogConditionController {
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
         DogConditionResponse res = dogConditionService.findById(id);
+        if (res != null) {
+            defaultRes.setResCode(StatusCode.OK);
+            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
+            defaultRes.setData(res);
+        }
+        return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
+    }
+
+    @GetMapping("/dog/{dogId}")
+    public ResponseEntity<?> findByUserId(@PathVariable("dogId") Long dogId) {
+        DefaultRes<Object> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
+        List<DogConditionResponse> res = dogConditionService.findByDogId(dogId);
         if (res != null) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
