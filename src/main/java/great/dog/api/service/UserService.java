@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import great.dog.api.domain.request.UserRequest;
 import great.dog.api.domain.response.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,9 @@ public class UserService {
 		return user.map(value -> modelMapper.map(value, UserResponse.class)).orElse(null);
 	}
 
-	public int save(great.dog.api.domain.request.UserRequest dto) {
+	public int save(Long id, UserRequest dto) {
 		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
-		if (userRepository.findByNameAndDelYn(dto.getName(), "N").isPresent()) return -1;
+		if (userRepository.findById(id).isPresent()) return -1;
 		User.UserBuilder userBuilder = User.builder().
 				name(dto.getName()).
 				password(dto.getPassword()).
@@ -65,8 +66,8 @@ public class UserService {
 	}
 
 	@Transactional
-	public int update(great.dog.api.domain.request.UserRequest dto) {
-		Optional<User> user = userRepository.findByNameAndDelYn(dto.getName(), "N");
+	public int update(Long id, UserRequest dto) {
+		Optional<User> user = userRepository.findById(id);
 		if (!user.isPresent()) return -1;
 
 		user.ifPresent(u -> {

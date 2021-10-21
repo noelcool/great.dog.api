@@ -11,11 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @Entity
 @Table(name = "dog_condition")
+@NoArgsConstructor
 public class DogCondition extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1164298676924406063L;

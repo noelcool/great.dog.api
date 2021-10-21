@@ -45,10 +45,10 @@ public class UserController {
 		return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
 	}
 
-	@PostMapping("")
-	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserRequest dto) {
+	@PostMapping("/{id}")
+	public ResponseEntity<DefaultRes<?>> save(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
-		int result = userService.save(dto);
+		int result = userService.save(id, dto);
 		if (result != 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
@@ -57,10 +57,10 @@ public class UserController {
 		return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
 	}
 
-	@PutMapping("/")
-	public ResponseEntity<DefaultRes<?>> update(@RequestBody UserRequest dto) {
+	@PutMapping("/{id}")
+	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
-		int result = userService.update(dto);
+		int result = userService.update(id, dto);
 		if (result != 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);

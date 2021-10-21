@@ -13,5 +13,5 @@ public class DogConditionResponse {
 
     private Float weight;
     private Float height;
-    private Timestamp createdTimestamp;
+    private Timestamp createTimestamp;
 }
