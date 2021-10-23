@@ -78,6 +78,7 @@ public class DogService {
             if (dto.getName() != null && !dto.getName().equals("")) d.setName(dto.getName());
             if (dto.getType() != null && !dto.getType().equals("")) d.setType(dto.getType());
             if (dto.getDelYn() != null && !dto.getType().equals("")) d.setDelYn(dto.getDelYn());
+            if (dto.getBirth() != null && !dto.getBirth().equals("")) d.setBirth(dto.getBirth());
             dogRepository.save(d);
         });
         return 1;

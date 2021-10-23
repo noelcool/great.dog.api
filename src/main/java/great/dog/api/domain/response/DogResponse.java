@@ -16,5 +16,6 @@ public class DogResponse {
     private String name;
     private String type;
     private Long userId;
+    private String birth;
     private List<DogCondition> dogConditions;
 }

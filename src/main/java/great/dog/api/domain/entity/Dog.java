@@ -37,6 +37,8 @@ public class Dog extends BaseEntity implements Serializable {
 	private String name;
 	
 	private String type;
+
+	private String birth;
 	
 	@OneToMany
 	@JoinColumn(name = "dog_id")

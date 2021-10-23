@@ -16,6 +16,7 @@ public class DogRequest {
     private Long id;
     private String name;
     private String type;
+    private String birth;
     private Long userId;
     private String delYn;
     private User user;
