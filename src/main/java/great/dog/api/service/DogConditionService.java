@@ -30,6 +30,7 @@ public class DogConditionService {
         return dogConditions.stream().map(d -> modelMapper.map(d, DogConditionResponse.class)).collect(Collectors.toList());
     }
 
+    @Transactional
     public int save(DogConditionRequest dto) {
         if (dto.getDogId() == null) return -1;
         Optional<Dog> oDog = dogRepository.findById(dto.getDogId());

@@ -85,6 +85,9 @@ public class DogService {
 
     public List<DogResponse> findByUserId(Long id) {
         List<Dog> dogs = dogRepository.findByUserIdAndDelYn(id, "N");
+        dogs.forEach( d -> {
+            d.getDogConditions();
+        });
         return dogs.stream().map(d -> modelMapper.map(d, DogResponse.class)).collect(Collectors.toList());
     }
 }

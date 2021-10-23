@@ -2,10 +2,7 @@ package great.dog.api.domain.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,8 +20,8 @@ public class DogCondition extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1164298676924406063L;
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="dog_id", insertable = false, updatable = false)
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="dog_id")
 	private Dog dog;
 	private Float weight;
 	private Float height;
