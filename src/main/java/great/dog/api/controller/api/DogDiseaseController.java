@@ -23,7 +23,7 @@ public class DogDiseaseController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         DefaultRes<Object> defaultRes = new DefaultRes<>();
-        DogDiseaseDto res = dogDiseaseService.findById(id);
+        DogDiseaseDto.Response res = dogDiseaseService.findById(id);
         if(!Objects.isNull(res)){
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
@@ -35,19 +35,19 @@ public class DogDiseaseController {
     @GetMapping("/dog/{dogId}")
     public ResponseEntity<?> findByDogId(@PathVariable("dogId") Long dogId) {
         DefaultRes<Object> defaultRes = new DefaultRes<>();
-        List<DogDiseaseDto> res = dogDiseaseService.findByDogId(dogId);
+        List<DogDiseaseDto.Response> res = dogDiseaseService.findByDogId(dogId);
         if(!Objects.isNull(res)){
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
             defaultRes.setData(res);
         }
-        return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
+        return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogDiseaseDto.Request dto) {
-        int result = dogDiseaseService.save(dto);
-        DefaultRes defaultRes = new DefaultRes(dto);
+    public ResponseEntity save(@RequestBody DogDiseaseDto.SaveRequest request) {
+        int result = dogDiseaseService.save(request);
+        DefaultRes defaultRes = new DefaultRes(request);
         if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
@@ -57,11 +57,11 @@ public class DogDiseaseController {
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDiseaseDto.Request dto) {
-        int result = dogDiseaseService.update(id, dto);
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
-        if (result != 0) {
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDiseaseDto.UpdateRequest request) {
+        int result = dogDiseaseService.update(id, request);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, request);
+        if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
         } else {

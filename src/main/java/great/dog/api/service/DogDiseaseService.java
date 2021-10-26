@@ -24,39 +24,40 @@ public class DogDiseaseService {
     private final DogDiseaseRepository dogDiseaseRepository;
     private final DogRepository dogRepository;
 
-    public DogDiseaseDto findById(Long id) {
+    public DogDiseaseDto.Response findById(Long id) {
         Optional<DogDisease> dogDisease = dogDiseaseRepository.findByIdAndDelYn(id, "N");
-        return dogDisease.map(value -> modelMapper.map(value, DogDiseaseDto.class)).orElse(null);
+        return dogDisease.map(value -> modelMapper.map(value, DogDiseaseDto.Response.class)).orElse(null);
     }
 
-    public List<DogDiseaseDto> findByDogId(Long dogId) {
+    public List<DogDiseaseDto.Response> findByDogId(Long dogId) {
         List<DogDisease> dogDiseases = dogDiseaseRepository.findByDogIdAndDelYn(dogId, "N");
-        return dogDiseases.stream().map(value -> modelMapper.map(value, DogDiseaseDto.class)).collect(Collectors.toList());
+        return dogDiseases.stream().map(value -> modelMapper.map(value, DogDiseaseDto.Response.class)).collect(Collectors.toList());
     }
 
     @Transactional
-    public int save(DogDiseaseDto.Request dto) {
-        if (Objects.isNull(dto.getDogId())) return -1;
-        Optional<Dog> oDog = dogRepository.findByIdAndDelYn(dto.getDogId(), "N");
+    public int save(DogDiseaseDto.SaveRequest request) {
+        if (Objects.isNull(request.getDogId())) return -1;
+        Optional<Dog> oDog = dogRepository.findByIdAndDelYn(request.getDogId(), "N");
         if (!oDog.isPresent()) return -1;
         DogDisease.DogDiseaseBuilder builder = DogDisease.builder().
-                name(dto.getName()).
-                region(dto.getRegion()).
-                comment(dto.getComment()).
+                name(request.getName()).
+                region(request.getRegion()).
+                comment(request.getComment()).
                 dog(oDog.get());
         return dogDiseaseRepository.save(builder.build()) != null ? 1 : 0;
     }
 
     @Transactional
-    public int update(Long id, DogDiseaseDto.Request dto) {
+    public int update(Long id, DogDiseaseDto.UpdateRequest request) {
         Optional<DogDisease> dogDisease = dogDiseaseRepository.findByIdAndDelYn(id, "N");
         if (!dogDisease.isPresent()) return -1;
         dogDisease.ifPresent(d -> {
-            if(dto.getName() != null) d.setName(dto.getName());
-            if(dto.getRegion() != null) d.setRegion(dto.getRegion());
-            if(dto.getComment() != null) d.setComment(dto.getComment());
+            if(request.getName() != null) d.setName(request.getName());
+            if(request.getRegion() != null) d.setRegion(request.getRegion());
+            if(request.getComment() != null) d.setComment(request.getComment());
+            if(request.getDelYn() != null) d.setDelYn(request.getDelYn());
             dogDiseaseRepository.save(d);
         });
-        return 0;
+        return 1;
     }
 }

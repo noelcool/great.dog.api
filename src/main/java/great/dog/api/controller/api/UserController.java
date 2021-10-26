@@ -45,30 +45,30 @@ public class UserController {
 		return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
 	}
 
-	@PostMapping("/{id}")
-	public ResponseEntity<DefaultRes<?>> save(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
-		DefaultRes<?> defaultRes = new DefaultRes<Object>();
-		int result = userService.save(id, dto);
+	@PostMapping("")
+	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserRequest dto) {
+		int result = userService.save(dto);
+		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
 		} else {
 			defaultRes.setResMsg(StatusMsg.CREATED_FAIL);
 		}
-		return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
+		return new ResponseEntity(defaultRes, HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
-		DefaultRes<?> defaultRes = new DefaultRes<Object>();
 		int result = userService.update(id, dto);
+		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
 		} else {
 			defaultRes.setResMsg(StatusMsg.UPDATE_FAIL);
 		}
-		return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
+		return new ResponseEntity(defaultRes, HttpStatus.OK);
 	}
 
 }

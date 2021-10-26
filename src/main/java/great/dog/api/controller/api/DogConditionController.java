@@ -74,7 +74,7 @@ public class DogConditionController {
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogConditionRequest dto) {
         int result = dogConditionService.update(id, dto);
         DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
-        if (result != 0) {
+        if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
         }

@@ -12,5 +12,6 @@ public class UserRequest {
 	private String password;
 	private String password_re;
 	private String nickName;
+	private String delYn;
 
 }

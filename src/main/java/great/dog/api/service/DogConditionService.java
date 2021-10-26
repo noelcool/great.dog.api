@@ -61,7 +61,7 @@ public class DogConditionService {
             if(dto.getHeight() != null) d.setHeight(dto.getHeight());
             dogConditionRepository.save(d);
         });
-        return 0;
+        return 1;
     }
 
 }
