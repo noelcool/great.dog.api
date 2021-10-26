@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,13 +22,17 @@ public class DogDisease extends BaseEntity implements Serializable {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="dog_id", insertable = false, updatable = false)
+	@JoinColumn(name="dog_id")
 	private Dog dog;
+	private String name;
+	private String region; //위치
+	private String comment;
 
-	private String diseaseName;
-	
-	private String diseaseRegion;
-	
-	private String diseaseComment;
-	
+	@Builder
+	private DogDisease(String name, String region, String comment, Dog dog) {
+		this.name = name;
+		this.region = region;
+		this.comment = comment;
+		this.dog = dog;
+	}
 }

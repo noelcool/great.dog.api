@@ -49,10 +49,11 @@ public class UserController {
 	public ResponseEntity<DefaultRes<?>> save(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
 		DefaultRes<?> defaultRes = new DefaultRes<Object>();
 		int result = userService.save(id, dto);
-		if (result != 0) {
+		if (result > 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
-			return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
+		} else {
+			defaultRes.setResMsg(StatusMsg.CREATED_FAIL);
 		}
 		return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
 	}
@@ -61,10 +62,11 @@ public class UserController {
 	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
 		DefaultRes<?> defaultRes = new DefaultRes<Object>();
 		int result = userService.update(id, dto);
-		if (result != 0) {
+		if (result > 0) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
-			return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
+		} else {
+			defaultRes.setResMsg(StatusMsg.UPDATE_FAIL);
 		}
 		return new ResponseEntity<DefaultRes<?>>(defaultRes, HttpStatus.OK);
 	}

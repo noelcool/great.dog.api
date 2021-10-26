@@ -30,6 +30,16 @@ public class DogConditionService {
         return dogConditions.stream().map(d -> modelMapper.map(d, DogConditionResponse.class)).collect(Collectors.toList());
     }
 
+    public DogConditionResponse findById(Long id) {
+        Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
+        return dogCondition.map(value -> modelMapper.map(value, DogConditionResponse.class)).orElse(null);
+    }
+
+    public List<DogConditionResponse> findByDogId(Long dogId) {
+        List<DogCondition> dogConditions = dogConditionRepository.findByDogIdAndDelYn(dogId, "N");
+        return dogConditions.stream().map(value -> modelMapper.map(value, DogConditionResponse.class)).collect(Collectors.toList());
+    }
+
     @Transactional
     public int save(DogConditionRequest dto) {
         if (dto.getDogId() == null) return -1;
@@ -43,7 +53,7 @@ public class DogConditionService {
     }
 
     public int update(Long id, DogConditionRequest dto) {
-        Optional<DogCondition> dogCondition = dogConditionRepository.findById(id);
+        Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
         if(!dogCondition.isPresent()) return -1;
         dogCondition.ifPresent(d -> {
             if(dto.getWeight() != null) d.setWeight(dto.getWeight());
@@ -51,16 +61,6 @@ public class DogConditionService {
             dogConditionRepository.save(d);
         });
         return 0;
-    }
-
-    public DogConditionResponse findById(Long id) {
-        Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
-        return dogCondition.map(value -> modelMapper.map(value, DogConditionResponse.class)).orElse(null);
-    }
-
-    public List<DogConditionResponse> findByDogId(Long dogId) {
-        List<DogCondition> dogConditions = dogConditionRepository.findByDogId(dogId);
-        return dogConditions.stream().map(d -> modelMapper.map(d, DogConditionResponse.class)).collect(Collectors.toList());
     }
 
 }

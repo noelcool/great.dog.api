@@ -11,4 +11,6 @@ public interface DogConditionRepository extends JpaRepository<great.dog.api.doma
     List<DogCondition> findByDogId(Long dogId);
 
     Optional<DogCondition> findByIdAndDelYn(Long id, String n);
+
+    List<DogCondition> findByDogIdAndDelYn(Long dogId, String n);
 }

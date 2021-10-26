@@ -14,7 +14,7 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI openAPI(@Value("${spring.version}") String appVersion) {
-        Info info = new Info().title("Demo API").version(appVersion)
+        Info info = new Info().title("Great Dog API").version(appVersion)
                 .description("Great Dog Swagger입니다")
                 .termsOfService("http://swagger.io/terms/")
                 .contact(new Contact().name("jungyin").url("https://www.jungyin.com").email("jamiejunginkim@gmail.com"))

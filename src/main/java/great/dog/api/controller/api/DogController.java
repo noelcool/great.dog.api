@@ -23,19 +23,6 @@ public class DogController {
 
     private final DogService dogService;
 
-//    @GetMapping("")
-//    public ResponseEntity<?> findAll() {
-//        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.READ_FAIL);
-//        List<DogResponse> dog = dogService.findAll();
-//        if (dog != null) {
-//            defaultRes.setResCode(StatusCode.OK);
-//            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
-//            defaultRes.setData(dog);
-//        }
-//        return new ResponseEntity(defaultRes, HttpStatus.OK);
-//    }
-
-
     @GetMapping("/{id}")
     @Operation(summary = "dog 테이블에서 각 개별 dog 정보를 받아온다")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
@@ -65,10 +52,11 @@ public class DogController {
     public ResponseEntity save(@RequestBody DogRequest dto) {
         int result = dogService.save(dto);
         DefaultRes defaultRes = new DefaultRes(dto);
-        if (result != 0) {
+        if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
-            return new ResponseEntity(defaultRes, HttpStatus.OK);
+        } else {
+            defaultRes.setResMsg(StatusMsg.CREATED_FAIL);
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
@@ -77,10 +65,11 @@ public class DogController {
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogRequest dto) {
         int result = dogService.update(id, dto);
         DefaultRes defaultRes = new DefaultRes(dto);
-        if (result != 0) {
+        if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
-            return new ResponseEntity(defaultRes, HttpStatus.OK);
+        } else {
+            defaultRes.setResMsg(StatusMsg.UPDATE_FAIL);
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
