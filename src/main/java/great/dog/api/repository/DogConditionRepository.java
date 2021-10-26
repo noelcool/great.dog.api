@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface DogConditionRepository extends JpaRepository<great.dog.api.domain.entity.DogCondition, Long> {
-
-    List<DogCondition> findByDogId(Long dogId);
+public interface DogConditionRepository extends JpaRepository<DogCondition, Long> {
 
     Optional<DogCondition> findByIdAndDelYn(Long id, String n);
 

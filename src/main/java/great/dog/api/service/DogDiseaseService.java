@@ -42,7 +42,8 @@ public class DogDiseaseService {
         DogDisease.DogDiseaseBuilder builder = DogDisease.builder().
                 name(dto.getName()).
                 region(dto.getRegion()).
-                comment(dto.getComment());
+                comment(dto.getComment()).
+                dog(oDog.get());
         return dogDiseaseRepository.save(builder.build()) != null ? 1 : 0;
     }
 

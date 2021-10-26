@@ -43,7 +43,7 @@ public class DogConditionService {
     @Transactional
     public int save(DogConditionRequest dto) {
         if (dto.getDogId() == null) return -1;
-        Optional<Dog> oDog = dogRepository.findById(dto.getDogId());
+        Optional<Dog> oDog = dogRepository.findByIdAndDelYn(dto.getDogId(), "N");
         if (!oDog.isPresent()) return -1;
         DogCondition.DogConditionBuilder builder = DogCondition.builder().
                 weight(dto.getWeight()).
@@ -52,6 +52,7 @@ public class DogConditionService {
         return dogConditionRepository.save(builder.build()) != null ? 1 : 0;
     }
 
+    @Transactional
     public int update(Long id, DogConditionRequest dto) {
         Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
         if(!dogCondition.isPresent()) return -1;

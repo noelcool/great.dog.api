@@ -16,7 +16,6 @@ public class DogDiseaseDto {
     private String region;
     private String comment;
     private Dog dog;
-    private Long dogId;
 
     @Getter
     @Setter
@@ -28,15 +27,4 @@ public class DogDiseaseDto {
         private Long dogId;
     }
 
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class Response {
-        private Long id;
-        private String name;
-        private String region;
-        private String comment;
-        private Dog dog;
-    }
 }
