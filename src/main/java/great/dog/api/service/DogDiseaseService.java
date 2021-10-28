@@ -35,27 +35,30 @@ public class DogDiseaseService {
     }
 
     @Transactional
-    public int save(DogDiseaseDto.SaveRequest request) {
-        if (Objects.isNull(request.getDogId())) return -1;
-        Optional<Dog> oDog = dogRepository.findById(request.getDogId());
+    public int save(DogDiseaseDto.SaveRequest dto) {
+        if (Objects.isNull(dto.getDogId())) return -1;
+        Optional<Dog> oDog = dogRepository.findById(dto.getDogId());
         if (!oDog.isPresent()) return -1;
         DogDisease.DogDiseaseBuilder builder = DogDisease.builder().
-                name(request.getName()).
-                region(request.getRegion()).
-                comment(request.getComment()).
+                name(dto.getName()).
+                region(dto.getRegion()).
+                comment(dto.getComment()).
                 dog(oDog.get());
         return dogDiseaseRepository.save(builder.build()) != null ? 1 : 0;
     }
 
     @Transactional
-    public int update(Long id, DogDiseaseDto.UpdateRequest request) {
+    public int update(Long id, DogDiseaseDto.UpdateRequest dto) {
         Optional<DogDisease> dogDisease = dogDiseaseRepository.findById(id);
         if (!dogDisease.isPresent()) return -1;
+        Optional<Dog> dog = dogRepository.findById(dto.getDogId());
+        if (!dog.isPresent()) return -1;
         dogDisease.ifPresent(d -> {
-            if(request.getName() != null) d.setName(request.getName());
-            if(request.getRegion() != null) d.setRegion(request.getRegion());
-            if(request.getComment() != null) d.setComment(request.getComment());
-            if(request.getDelYn() != null) d.setDelYn(request.getDelYn());
+            if(dto.getName() != null) d.setName(dto.getName());
+            if(dto.getRegion() != null) d.setRegion(dto.getRegion());
+            if(dto.getComment() != null) d.setComment(dto.getComment());
+            if(dto.getDelYn() != null) d.setDelYn(dto.getDelYn());
+            d.setDog(dog.get());
             dogDiseaseRepository.save(d);
         });
         return 1;

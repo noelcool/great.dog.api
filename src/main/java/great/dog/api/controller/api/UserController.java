@@ -45,7 +45,7 @@ public class UserController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserDto.Request dto) {
+	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserDto.SaveRequest dto) {
 		int result = userService.save(dto);
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {
@@ -58,7 +58,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserDto.Request dto) {
+	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserDto.UpdateRequest dto) {
 		int result = userService.update(id, dto);
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {

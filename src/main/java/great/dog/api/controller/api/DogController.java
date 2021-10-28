@@ -48,7 +48,7 @@ public class DogController {
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogDto.Request dto) {
+    public ResponseEntity save(@RequestBody DogDto.SaveRequest dto) {
         int result = dogService.save(dto);
         DefaultRes defaultRes = new DefaultRes(dto);
         if (result > 0) {
@@ -61,7 +61,7 @@ public class DogController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDto.Request dto) {
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDto.UpdateRequest dto) {
         int result = dogService.update(id, dto);
         DefaultRes defaultRes = new DefaultRes(dto);
         if (result > 0) {

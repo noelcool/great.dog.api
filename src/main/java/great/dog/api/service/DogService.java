@@ -37,7 +37,7 @@ public class DogService {
         return dog.map(value -> modelMapper.map(value, DogDto.Response.class)).orElse(null);
     }
 
-    public int save(DogDto.Request dto) {
+    public int save(DogDto.SaveRequest dto) {
         // 사용자 정보 없음
         if (dto.getUserId() == null) return -1;
 
@@ -71,10 +71,9 @@ public class DogService {
     }
 
     @Transactional
-    public int update(Long id, DogDto.Request dto) {
+    public int update(Long id, DogDto.UpdateRequest dto) {
         Optional<Dog> dog = dogRepository.findById(id);
         if (!dog.isPresent()) return -1;
-
         dog.ifPresent(d -> {
             if(StringUtils.isNotBlank(dto.getName())) d.setName(dto.getName());
             if(StringUtils.isNotBlank(dto.getType())) d.setType(dto.getType());

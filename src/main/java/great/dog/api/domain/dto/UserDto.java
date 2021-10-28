@@ -11,14 +11,20 @@ public class UserDto {
 
 	@Getter @Setter
 	@NoArgsConstructor
-	public static class Request {
+	public static class SaveRequest {
 		private String name;
 		private String password;
 		private String password_re;
 		private String nickName;
-		private String delYn;
 	}
 
+	@Getter @Setter
+	@NoArgsConstructor
+	public static class UpdateRequest {
+		private String password;
+		private String nickName;
+		private String delYn;
+	}
 	@Getter @Setter
 	@NoArgsConstructor
 	public static class Response {

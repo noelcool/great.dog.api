@@ -54,9 +54,12 @@ public class DogConditionService {
     public int update(Long id, DogConditionDto.Request dto) {
         Optional<DogCondition> dogCondition = dogConditionRepository.findById(id);
         if(!dogCondition.isPresent()) return -1;
+        Optional<Dog> dog = dogRepository.findById(dto.getDogId());
+        if (!dog.isPresent()) return -1;
         dogCondition.ifPresent(d -> {
             if(dto.getWeight() != null) d.setWeight(dto.getWeight());
             if(dto.getHeight() != null) d.setHeight(dto.getHeight());
+            d.setDog(dog.get());
             dogConditionRepository.save(d);
         });
         return 1;

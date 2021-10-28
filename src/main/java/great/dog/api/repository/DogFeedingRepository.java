@@ -10,5 +10,5 @@ public interface DogFeedingRepository extends JpaRepository<DogFeeding, Long> {
 
     Optional<DogFeeding> findById(Long id);
 
-    List<DogFeeding> findByDogId(Long dogId);
+    List<DogFeeding> findByDogIdOrderByFeedingTimestamp(Long dogId);
 }

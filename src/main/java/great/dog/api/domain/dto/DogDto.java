@@ -15,7 +15,17 @@ public class DogDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class Request {
+    public static class SaveRequest {
+        private String name;
+        private String type;
+        private String birth;
+        private Long userId;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UpdateRequest {
         private String name;
         private String type;
         private String birth;

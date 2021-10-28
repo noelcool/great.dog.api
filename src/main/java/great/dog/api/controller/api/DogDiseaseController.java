@@ -45,9 +45,9 @@ public class DogDiseaseController {
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogDiseaseDto.SaveRequest request) {
-        int result = dogDiseaseService.save(request);
-        DefaultRes defaultRes = new DefaultRes(request);
+    public ResponseEntity save(@RequestBody DogDiseaseDto.SaveRequest dto) {
+        int result = dogDiseaseService.save(dto);
+        DefaultRes defaultRes = new DefaultRes(dto);
         if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
@@ -58,9 +58,9 @@ public class DogDiseaseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDiseaseDto.UpdateRequest request) {
-        int result = dogDiseaseService.update(id, request);
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, request);
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDiseaseDto.UpdateRequest dto) {
+        int result = dogDiseaseService.update(id, dto);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
         if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);

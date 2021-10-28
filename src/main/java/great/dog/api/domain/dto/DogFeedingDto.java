@@ -16,6 +16,7 @@ public class DogFeedingDto {
     @NoArgsConstructor
     public static class Response {
         private Long id;
+        private String name;
         private String type;
         private String quantity;
         private Timestamp feedingTimestamp;
@@ -26,8 +27,9 @@ public class DogFeedingDto {
     @NoArgsConstructor
     public static class SaveRequest {
         private String type;
+        private String name;
         private String quantity;
-        private Timestamp feedingTimestamp;
+        private String feedingTimestamp;
         private Long dogId;
     }
 
@@ -36,8 +38,11 @@ public class DogFeedingDto {
     @NoArgsConstructor
     public static class UpdateRequest {
         private String type;
+        private String name;
         private String quantity;
-        private Timestamp feedingTimestamp;
+        private String feedingTimestamp;
+        private Long dogId;
+        private String delYn;
     }
 
 }

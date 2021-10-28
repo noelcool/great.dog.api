@@ -54,7 +54,7 @@ public class UserService {
 		return user.map(value -> modelMapper.map(value, UserDto.Response.class)).orElse(null);
 	}
 
-	public int save(UserDto.Request dto) {
+	public int save(UserDto.SaveRequest dto) {
 		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
 		Optional<User> user = userRepository.findByName(dto.getName());
 		if (user.isPresent()) return -2;
@@ -66,10 +66,9 @@ public class UserService {
 	}
 
 	@Transactional
-	public int update(Long id, UserDto.Request dto) {
+	public int update(Long id, UserDto.UpdateRequest dto) {
 		Optional<User> user = userRepository.findById(id);
 		if (!user.isPresent()) return -1;
-
 		user.ifPresent(u -> {
 			u.setPassword(dto.getPassword());
 			u.setNickName(dto.getNickName());

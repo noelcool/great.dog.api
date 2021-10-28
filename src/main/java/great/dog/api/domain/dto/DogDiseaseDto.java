@@ -34,6 +34,7 @@ public class DogDiseaseDto {
         private String region;
         private String comment;
         private String delYn;
+        private Long dogId;
     }
 
 }
