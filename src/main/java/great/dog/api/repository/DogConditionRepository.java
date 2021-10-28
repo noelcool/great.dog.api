@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface DogConditionRepository extends JpaRepository<DogCondition, Long> {
 
-    Optional<DogCondition> findByIdAndDelYn(Long id, String n);
+    Optional<DogCondition> findById(Long id);
 
-    List<DogCondition> findByDogIdAndDelYn(Long dogId, String n);
+    List<DogCondition> findByDogId(Long dogId);
 }

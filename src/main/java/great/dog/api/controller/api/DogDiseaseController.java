@@ -1,6 +1,6 @@
 package great.dog.api.controller.api;
 
-import great.dog.api.domain.DogDiseaseDto;
+import great.dog.api.domain.dto.DogDiseaseDto;
 import great.dog.api.domain.response.DefaultRes;
 import great.dog.api.service.DogDiseaseService;
 import great.dog.api.util.StatusCode;
@@ -32,7 +32,7 @@ public class DogDiseaseController {
         return new ResponseEntity<Object>(defaultRes, HttpStatus.OK);
     }
 
-    @GetMapping("/dog/{dogId}")
+    @GetMapping("/dogId/{dogId}")
     public ResponseEntity<?> findByDogId(@PathVariable("dogId") Long dogId) {
         DefaultRes<Object> defaultRes = new DefaultRes<>();
         List<DogDiseaseDto.Response> res = dogDiseaseService.findByDogId(dogId);

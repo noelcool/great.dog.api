@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DogDiseaseRepository extends JpaRepository<DogDisease, Long> {
 
-    List<DogDisease> findByDogIdAndDelYn(Long dogId, String n);
+    List<DogDisease> findByDogId(Long dogId);
 
-    Optional<DogDisease> findByIdAndDelYn(Long id, String n);
+    Optional<DogDisease> findById(Long id);
 }

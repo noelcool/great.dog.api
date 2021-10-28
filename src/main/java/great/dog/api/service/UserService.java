@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import great.dog.api.domain.request.UserRequest;
-import great.dog.api.domain.response.UserResponse;
+import great.dog.api.domain.dto.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,17 +21,17 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
 
-	public List<UserResponse> findAll() {
+	public List<UserDto.Response> findAll() {
 		List<User> users = userRepository.findAll();
 		users.forEach(user -> {
 			user.getDogs().forEach(dog -> {
 				dog.getId();
 			});
 		});
-		return users.stream().map(u -> modelMapper.map(u, UserResponse.class)).collect(Collectors.toList());
+		return users.stream().map(u -> modelMapper.map(u, UserDto.Response.class)).collect(Collectors.toList());
 	}
 
-	public UserResponse findById(Long id) {
+	public UserDto.Response findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 /*
 		user.ifPresent(u -> {
@@ -52,11 +51,13 @@ public class UserService {
 			});	
 		});
 */
-		return user.map(value -> modelMapper.map(value, UserResponse.class)).orElse(null);
+		return user.map(value -> modelMapper.map(value, UserDto.Response.class)).orElse(null);
 	}
 
-	public int save(UserRequest dto) {
+	public int save(UserDto.Request dto) {
 		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
+		Optional<User> user = userRepository.findByName(dto.getName());
+		if (user.isPresent()) return -2;
 		User.UserBuilder userBuilder = User.builder().
 				name(dto.getName()).
 				password(dto.getPassword()).
@@ -65,8 +66,8 @@ public class UserService {
 	}
 
 	@Transactional
-	public int update(Long id, UserRequest dto) {
-		Optional<User> user = userRepository.findByIdAndDelYn(id, "N");
+	public int update(Long id, UserDto.Request dto) {
+		Optional<User> user = userRepository.findById(id);
 		if (!user.isPresent()) return -1;
 
 		user.ifPresent(u -> {

@@ -1,6 +1,6 @@
 package great.dog.api.service;
 
-import great.dog.api.domain.DogDiseaseDto;
+import great.dog.api.domain.dto.DogDiseaseDto;
 import great.dog.api.domain.entity.Dog;
 import great.dog.api.domain.entity.DogDisease;
 import great.dog.api.repository.DogDiseaseRepository;
@@ -25,19 +25,19 @@ public class DogDiseaseService {
     private final DogRepository dogRepository;
 
     public DogDiseaseDto.Response findById(Long id) {
-        Optional<DogDisease> dogDisease = dogDiseaseRepository.findByIdAndDelYn(id, "N");
+        Optional<DogDisease> dogDisease = dogDiseaseRepository.findById(id);
         return dogDisease.map(value -> modelMapper.map(value, DogDiseaseDto.Response.class)).orElse(null);
     }
 
     public List<DogDiseaseDto.Response> findByDogId(Long dogId) {
-        List<DogDisease> dogDiseases = dogDiseaseRepository.findByDogIdAndDelYn(dogId, "N");
+        List<DogDisease> dogDiseases = dogDiseaseRepository.findByDogId(dogId);
         return dogDiseases.stream().map(value -> modelMapper.map(value, DogDiseaseDto.Response.class)).collect(Collectors.toList());
     }
 
     @Transactional
     public int save(DogDiseaseDto.SaveRequest request) {
         if (Objects.isNull(request.getDogId())) return -1;
-        Optional<Dog> oDog = dogRepository.findByIdAndDelYn(request.getDogId(), "N");
+        Optional<Dog> oDog = dogRepository.findById(request.getDogId());
         if (!oDog.isPresent()) return -1;
         DogDisease.DogDiseaseBuilder builder = DogDisease.builder().
                 name(request.getName()).
@@ -49,7 +49,7 @@ public class DogDiseaseService {
 
     @Transactional
     public int update(Long id, DogDiseaseDto.UpdateRequest request) {
-        Optional<DogDisease> dogDisease = dogDiseaseRepository.findByIdAndDelYn(id, "N");
+        Optional<DogDisease> dogDisease = dogDiseaseRepository.findById(id);
         if (!dogDisease.isPresent()) return -1;
         dogDisease.ifPresent(d -> {
             if(request.getName() != null) d.setName(request.getName());

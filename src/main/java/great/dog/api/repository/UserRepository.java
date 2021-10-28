@@ -8,7 +8,8 @@ import great.dog.api.domain.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	Optional<User> findByNameAndDelYn(String name, String string);
+	Optional<User> findByName(String name);
 
-    Optional<User> findByIdAndDelYn(Long id, String n);
+    Optional<User> findById(Long id);
+
 }

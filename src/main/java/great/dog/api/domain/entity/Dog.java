@@ -57,9 +57,10 @@ public class Dog extends BaseEntity implements Serializable {
 	private List<DogHospital> hospital;
 
 	@Builder
-	public Dog(String name, String type, User user) {
+	public Dog(String name, String type, String birth, User user) {
 		this.name = name;
 		this.type = type;
+		this.birth = birth;
 		this.user = user;
 	}
 

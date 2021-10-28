@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @EntityListeners(value = AuditingEntityListener.class)
 @Getter @Setter
 @MappedSuperclass //객체의 입장에서 공통 매핑 정보가 필요할 때 사용
+@Where(clause = "delYn = 'N'")
 public abstract class BaseEntity implements Serializable { //객체 직렬화
 	
 	private static final long serialVersionUID = 1L;

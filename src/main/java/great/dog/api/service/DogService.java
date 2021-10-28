@@ -2,11 +2,11 @@ package great.dog.api.service;
 
 import great.dog.api.domain.entity.Dog;
 import great.dog.api.domain.entity.User;
-import great.dog.api.domain.request.DogRequest;
-import great.dog.api.domain.response.DogResponse;
+import great.dog.api.domain.dto.DogDto;
 import great.dog.api.repository.DogRepository;
 import great.dog.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,20 +24,20 @@ public class DogService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public List<DogResponse> findAll() {
+    public List<DogDto.Response> findAll() {
          // List<PostDto.Get> collect =
          //        allPost.stream().map(p -> modelMapper.map(p, PostDto.Get.class)).collect(Collectors.toList());
 
         List<Dog> dog = dogRepository.findAll();
-        return dog.stream().map(d -> modelMapper.map(d, DogResponse.class)).collect(Collectors.toList());
+        return dog.stream().map(d -> modelMapper.map(d, DogDto.Response.class)).collect(Collectors.toList());
     }
 
-    public DogResponse findById(Long id) {
-        Optional<Dog> dog = dogRepository.findByIdAndDelYn(id, "N");
-        return dog.map(value -> modelMapper.map(value, DogResponse.class)).orElse(null);
+    public DogDto.Response findById(Long id) {
+        Optional<Dog> dog = dogRepository.findById(id);
+        return dog.map(value -> modelMapper.map(value, DogDto.Response.class)).orElse(null);
     }
 
-    public int save(DogRequest dto) {
+    public int save(DogDto.Request dto) {
         // 사용자 정보 없음
         if (dto.getUserId() == null) return -1;
 
@@ -46,7 +46,7 @@ public class DogService {
         if (!oUser.isPresent()) return -1;
 
         // 사용자 + 애견 정보 있음
-        if (dogRepository.findByUserIdAndNameAndDelYn(dto.getUserId(), dto.getName(), "N").isPresent()) return -0;
+        if (dogRepository.findByUserIdAndName(dto.getUserId(), dto.getName()).isPresent()) return -0;
 
 //        modelMapper.typeMap(Item.class, Bill.class).addMappings(mapper -> {
 //        mapper.map(Item::getStock, Bill::setQty);
@@ -65,30 +65,31 @@ public class DogService {
         Dog.DogBuilder dogBuilder = Dog.builder().
                 name(dto.getName()).
                 type(dto.getType()).
+                birth(dto.getBirth()).
                 user(oUser.get());
         return dogRepository.save(dogBuilder.build()) != null ? 1 : 0;
     }
 
     @Transactional
-    public int update(Long id, DogRequest dto) {
+    public int update(Long id, DogDto.Request dto) {
         Optional<Dog> dog = dogRepository.findById(id);
         if (!dog.isPresent()) return -1;
 
         dog.ifPresent(d -> {
-            if (dto.getName() != null && !dto.getName().equals("")) d.setName(dto.getName());
-            if (dto.getType() != null && !dto.getType().equals("")) d.setType(dto.getType());
-            if (dto.getDelYn() != null && !dto.getType().equals("")) d.setDelYn(dto.getDelYn());
-            if (dto.getBirth() != null && !dto.getBirth().equals("")) d.setBirth(dto.getBirth());
+            if(StringUtils.isNotBlank(dto.getName())) d.setName(dto.getName());
+            if(StringUtils.isNotBlank(dto.getType())) d.setType(dto.getType());
+            if(StringUtils.isNotBlank(dto.getBirth())) d.setBirth(dto.getBirth());
+            if(StringUtils.isNotBlank(dto.getDelYn())) d.setDelYn(dto.getDelYn());
             dogRepository.save(d);
         });
         return 1;
     }
 
-    public List<DogResponse> findByUserId(Long id) {
-        List<Dog> dogs = dogRepository.findByUserIdAndDelYn(id, "N");
+    public List<DogDto.Response> findByUserId(Long id) {
+        List<Dog> dogs = dogRepository.findByUserId(id);
         dogs.forEach( d -> {
             d.getDogConditions();
         });
-        return dogs.stream().map(d -> modelMapper.map(d, DogResponse.class)).collect(Collectors.toList());
+        return dogs.stream().map(d -> modelMapper.map(d, DogDto.Response.class)).collect(Collectors.toList());
     }
 }

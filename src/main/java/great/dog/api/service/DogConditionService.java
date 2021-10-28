@@ -1,10 +1,8 @@
 package great.dog.api.service;
 
+import great.dog.api.domain.dto.DogConditionDto;
 import great.dog.api.domain.entity.Dog;
 import great.dog.api.domain.entity.DogCondition;
-import great.dog.api.domain.request.DogConditionRequest;
-import great.dog.api.domain.response.DogConditionResponse;
-import great.dog.api.domain.response.DogResponse;
 import great.dog.api.repository.DogConditionRepository;
 import great.dog.api.repository.DogRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,25 +23,25 @@ public class DogConditionService {
     private final DogConditionRepository dogConditionRepository;
     private final DogRepository dogRepository;
     
-    public List<DogConditionResponse> findAll() {
+    public List<DogConditionDto.Response> findAll() {
         List<DogCondition> dogConditions = dogConditionRepository.findAll();
-        return dogConditions.stream().map(d -> modelMapper.map(d, DogConditionResponse.class)).collect(Collectors.toList());
+        return dogConditions.stream().map(d -> modelMapper.map(d, DogConditionDto.Response.class)).collect(Collectors.toList());
     }
 
-    public DogConditionResponse findById(Long id) {
-        Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
-        return dogCondition.map(value -> modelMapper.map(value, DogConditionResponse.class)).orElse(null);
+    public DogConditionDto.Response findById(Long id) {
+        Optional<DogCondition> dogCondition = dogConditionRepository.findById(id);
+        return dogCondition.map(value -> modelMapper.map(value, DogConditionDto.Response.class)).orElse(null);
     }
 
-    public List<DogConditionResponse> findByDogId(Long dogId) {
-        List<DogCondition> dogConditions = dogConditionRepository.findByDogIdAndDelYn(dogId, "N");
-        return dogConditions.stream().map(value -> modelMapper.map(value, DogConditionResponse.class)).collect(Collectors.toList());
+    public List<DogConditionDto.Response> findByDogId(Long dogId) {
+        List<DogCondition> dogConditions = dogConditionRepository.findByDogId(dogId);
+        return dogConditions.stream().map(value -> modelMapper.map(value, DogConditionDto.Response.class)).collect(Collectors.toList());
     }
 
     @Transactional
-    public int save(DogConditionRequest dto) {
+    public int save(DogConditionDto.Request dto) {
         if (dto.getDogId() == null) return -1;
-        Optional<Dog> oDog = dogRepository.findByIdAndDelYn(dto.getDogId(), "N");
+        Optional<Dog> oDog = dogRepository.findById(dto.getDogId());
         if (!oDog.isPresent()) return -1;
         DogCondition.DogConditionBuilder builder = DogCondition.builder().
                 weight(dto.getWeight()).
@@ -53,8 +51,8 @@ public class DogConditionService {
     }
 
     @Transactional
-    public int update(Long id, DogConditionRequest dto) {
-        Optional<DogCondition> dogCondition = dogConditionRepository.findByIdAndDelYn(id, "N");
+    public int update(Long id, DogConditionDto.Request dto) {
+        Optional<DogCondition> dogCondition = dogConditionRepository.findById(id);
         if(!dogCondition.isPresent()) return -1;
         dogCondition.ifPresent(d -> {
             if(dto.getWeight() != null) d.setWeight(dto.getWeight());

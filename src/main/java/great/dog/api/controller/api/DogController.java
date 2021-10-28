@@ -1,8 +1,7 @@
 package great.dog.api.controller.api;
 
-import great.dog.api.domain.request.DogRequest;
+import great.dog.api.domain.dto.DogDto;
 import great.dog.api.domain.response.DefaultRes;
-import great.dog.api.domain.response.DogResponse;
 import great.dog.api.service.DogService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
@@ -27,7 +26,7 @@ public class DogController {
     @Operation(summary = "dog 테이블에서 각 개별 dog 정보를 받아온다")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         DefaultRes defaultRes = new DefaultRes(id);
-        DogResponse dog = dogService.findById(id);
+        DogDto.Response dog = dogService.findById(id);
         if (dog != null) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
@@ -39,7 +38,7 @@ public class DogController {
     @GetMapping("/user/{id}")
     public ResponseEntity<?> findByUserId(@PathVariable("id") Long id) {
         DefaultRes defaultRes = new DefaultRes(id);
-        List<DogResponse> dog = dogService.findByUserId(id);
+        List<DogDto.Response> dog = dogService.findByUserId(id);
         if (dog != null) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
@@ -49,7 +48,7 @@ public class DogController {
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogRequest dto) {
+    public ResponseEntity save(@RequestBody DogDto.Request dto) {
         int result = dogService.save(dto);
         DefaultRes defaultRes = new DefaultRes(dto);
         if (result > 0) {
@@ -62,7 +61,7 @@ public class DogController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogRequest dto) {
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogDto.Request dto) {
         int result = dogService.update(id, dto);
         DefaultRes defaultRes = new DefaultRes(dto);
         if (result > 0) {

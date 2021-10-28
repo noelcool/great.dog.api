@@ -1,8 +1,7 @@
 package great.dog.api.controller.api;
 
-import great.dog.api.domain.request.UserRequest;
+import great.dog.api.domain.dto.UserDto;
 import great.dog.api.domain.response.DefaultRes;
-import great.dog.api.domain.response.UserResponse;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ public class UserController {
 	@GetMapping("")
 	public ResponseEntity<?> findAll() {
 		DefaultRes<Object> defaultRes = new DefaultRes<Object>();
-		List<UserResponse> user = userService.findAll();
+		List<UserDto.Response> user = userService.findAll();
 		if (user != null) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
@@ -35,8 +34,8 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-		DefaultRes<Object> defaultRes = new DefaultRes<Object>();
-		UserResponse user = userService.findById(id);
+		DefaultRes<Object> defaultRes = new DefaultRes<>();
+		UserDto.Response user = userService.findById(id);
 		if (user != null) {
 			defaultRes.setResCode(StatusCode.OK);
 			defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
@@ -46,7 +45,7 @@ public class UserController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserRequest dto) {
+	public ResponseEntity<DefaultRes<?>> save(@RequestBody UserDto.Request dto) {
 		int result = userService.save(dto);
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {
@@ -59,7 +58,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserRequest dto) {
+	public ResponseEntity<DefaultRes<?>> update(@PathVariable("id") Long id, @RequestBody UserDto.Request dto) {
 		int result = userService.update(id, dto);
 		DefaultRes<?> defaultRes = new DefaultRes<Object>(dto);
 		if (result > 0) {

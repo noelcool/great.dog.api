@@ -1,8 +1,9 @@
 package great.dog.api.controller.api;
 
-import great.dog.api.domain.dto.DogConditionDto;
+
+import great.dog.api.domain.dto.DogFeedingDto;
 import great.dog.api.domain.response.DefaultRes;
-import great.dog.api.service.DogConditionService;
+import great.dog.api.service.DogFeedingService;
 import great.dog.api.util.StatusCode;
 import great.dog.api.util.StatusMsg;
 import lombok.AllArgsConstructor;
@@ -11,31 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/dogCondition")
-public class DogConditionController {
+@RequestMapping("/v1/dogFeeding")
+public class DogFeedingController {
 
-    private final DogConditionService dogConditionService;
-
-    @GetMapping("")
-    public ResponseEntity<?> findAll() {
-        DefaultRes defaultRes = new DefaultRes();
-        List<DogConditionDto.Response> dogCondition = dogConditionService.findAll();
-        if (dogCondition != null) {
-            defaultRes.setResCode(StatusCode.OK);
-            defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
-            defaultRes.setData(dogCondition);
-        }
-        return new ResponseEntity(defaultRes, HttpStatus.OK);
-    }
+    private final DogFeedingService dogFeedingService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         DefaultRes<Object> defaultRes = new DefaultRes<>();
-        DogConditionDto.Response res = dogConditionService.findById(id);
-        if (res != null) {
+        DogFeedingDto.Response res = dogFeedingService.findById(id);
+        if(!Objects.isNull(res)) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
             defaultRes.setData(res);
@@ -44,11 +34,10 @@ public class DogConditionController {
     }
 
     @GetMapping("/dogId/{dogId}")
-    public ResponseEntity<?> findByDogId(@PathVariable("dogId") Long dogId) {
+    public ResponseEntity<?> findByDogIdAndDelYn(@PathVariable("dogId") Long dogId) {
         DefaultRes<Object> defaultRes = new DefaultRes<>();
-
-        List<DogConditionDto.Response> res = dogConditionService.findByDogId(dogId);
-        if (res != null) {
+        List<DogFeedingDto.Response> res = dogFeedingService.findByDogId(dogId);
+        if(!Objects.isNull(res)) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.READ_SUCCESS);
             defaultRes.setData(res);
@@ -57,9 +46,9 @@ public class DogConditionController {
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody DogConditionDto.Request dto) {
-        int result = dogConditionService.save(dto);
-        DefaultRes defaultRes = new DefaultRes(dto);
+    public ResponseEntity save(@RequestBody DogFeedingDto.SaveRequest request) {
+        DefaultRes<Object> defaultRes = new DefaultRes<>();
+        int result = dogFeedingService.save(request);
         if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.CREATED_SUCCESS);
@@ -70,16 +59,16 @@ public class DogConditionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogConditionDto.Request dto) {
-        int result = dogConditionService.update(id, dto);
-        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, dto);
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody DogFeedingDto.UpdateRequest request) {
+        int result = dogFeedingService.update(id, request);
+        DefaultRes defaultRes = new DefaultRes(StatusCode.BAD_REQUEST, StatusMsg.UPDATE_FAIL, request);
         if (result > 0) {
             defaultRes.setResCode(StatusCode.OK);
             defaultRes.setResMsg(StatusMsg.UPDATE_SUCCESS);
+        } else {
+            defaultRes.setResMsg(StatusMsg.UPDATE_FAIL);
         }
         return new ResponseEntity(defaultRes, HttpStatus.OK);
     }
-
-
 
 }

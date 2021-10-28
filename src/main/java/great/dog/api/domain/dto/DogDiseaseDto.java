@@ -1,4 +1,4 @@
-package great.dog.api.domain;
+package great.dog.api.domain.dto;
 
 
 import lombok.Getter;
