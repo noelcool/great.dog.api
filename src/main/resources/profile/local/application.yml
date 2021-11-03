@@ -41,6 +41,15 @@ spring:
       pageable:
         default-page-size: 5
         one-indexed-parameters: true
+  security:
+    user:
+      name: admin
+      password: admin
+  resources:
+    static-locations:
+      - classpath:/static/
+    cache:
+      period: 0
 server:
   port: 18080
 logging:
