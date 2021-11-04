@@ -3,14 +3,18 @@ package great.dog.api.domain.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 @Getter @Setter
 @Entity
@@ -32,6 +36,12 @@ public class User extends BaseEntity implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	private List<Dog> dogs;
+
+	@Singular("userRoles")
+	@JsonIgnoreProperties({"createTimestamp", "updateTimestmap"})
+	@JsonManagedReference
+	@OneToMany(mappedBy="user")
+	private Set<UserRole> userRoles;
 	
 	@Builder
 	public User(String name, String password, String nickName) {
