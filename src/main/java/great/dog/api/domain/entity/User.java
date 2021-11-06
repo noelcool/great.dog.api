@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Where;
 
 @Getter @Setter
 @Entity
@@ -25,6 +24,8 @@ import org.hibernate.annotations.Where;
 public class User extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -8161352668492942511L;
+
+	private String email;
 
 	private String name;
 	
@@ -38,13 +39,14 @@ public class User extends BaseEntity implements Serializable {
 	private List<Dog> dogs;
 
 	@Singular("userRoles")
-	@JsonIgnoreProperties({"createTimestamp", "updateTimestmap"})
-	@JsonManagedReference
+	@JsonIgnoreProperties({"createTimestamp", "updateTimestmap"}) //json 조회시 출력에서 제외시킬 컬럼
+	@JsonManagedReference // 무한 순회참조 현상을 막기 위해서 조회하고자 하는 엔티티에 선언해준다
 	@OneToMany(mappedBy="user")
 	private Set<UserRole> userRoles;
 	
 	@Builder
-	public User(String name, String password, String nickName) {
+	public User(String email, String name, String password, String nickName) {
+		this.email = email;
 		this.name = name;
 		this.password = password;
 		this.nickName = nickName;

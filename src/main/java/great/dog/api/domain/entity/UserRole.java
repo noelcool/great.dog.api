@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_role", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_type"})})
+@Table(name = "user_role", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_name"})})
 @DynamicUpdate // update 시 null 인 필드 제외
 @DynamicInsert // insert 시 null 인 필드 제외
 @NoArgsConstructor
@@ -25,8 +25,9 @@ public class UserRole extends BaseEntity implements GrantedAuthority {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_USER_ROLE_USER"))
     private User user;
 
+    @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType roleName;
 
     public enum RoleType {
         ROLE_ADMIN, ROLE_VIEW
@@ -35,6 +36,6 @@ public class UserRole extends BaseEntity implements GrantedAuthority {
     @JsonIgnore
     @Override
     public String getAuthority() {
-        return this.roleType.name();
+        return this.roleName.name();
     }
 }
