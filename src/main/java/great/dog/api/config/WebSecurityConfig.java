@@ -34,12 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().
-                antMatchers("/", "/login", "/join", "/swagger-ui.html", "/login/**").permitAll().
-                antMatchers("/v1", "/v1/**").access("hasRole('ROLE_VIEW')").
+                antMatchers("/", "/login", "/join", "/login/**").permitAll().
+                antMatchers("/v1", "/v1/**", "/swagger-ui.html").access("hasRole('ROLE_VIEW')").
                 anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").defaultSuccessUrl("/v1", true)
-                    .usernameParameter("email").passwordParameter("password")
+                    .usernameParameter("username").passwordParameter("password")
                 .and()
                     .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and()

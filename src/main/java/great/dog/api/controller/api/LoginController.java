@@ -30,7 +30,7 @@ public class LoginController {
     public String index(@AuthenticationPrincipal SecurityUser securityUser) {
         if(securityUser != null) {
             if(securityUser.getRoleTypes().contains(UserRole.RoleType.ROLE_VIEW)) {
-                return "redirect:/v1";
+                return "redirect:/swagger-ui.html";
             }
         }
         return "login/login";

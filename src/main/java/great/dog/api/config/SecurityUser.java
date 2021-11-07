@@ -12,8 +12,12 @@ import java.util.stream.Collectors;
 public class SecurityUser extends User implements UserDetails {
 
     // 인증 및 인가에 이용하는 필드 값
+    //boolean isAccountNonExpired();
+    //boolean isAccountNonLocked();
+    //boolean isCredentialsNonExpired();
+    //boolean isEnabled();
     private final boolean accountNonExpired; // 계정 만료 여부
-    private final boolean accountNonlocked; // 계정 잠금 여부
+    private final boolean accountNonLocked; // 계정 잠금 여부
     private final boolean credentialsNonExpired; // 패스워드 만료 여부
     private final boolean enabled; //계정 사용 가능 여부
 
@@ -26,7 +30,7 @@ public class SecurityUser extends User implements UserDetails {
         setDelYn(user.getDelYn());
         setUserRoles(user.getUserRoles());
         this.accountNonExpired = true;
-        this.accountNonlocked = true;
+        this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
     }
@@ -37,31 +41,31 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getUserRoles();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return super.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return this.accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return this.accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return this.credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.enabled;
     }
 }

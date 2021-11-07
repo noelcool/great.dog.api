@@ -41,6 +41,10 @@ public class User extends BaseEntity implements Serializable {
 	@JsonManagedReference // 무한 순회참조 현상을 막기 위해서 조회하고자 하는 엔티티에 선언해준다
 	@OneToMany(mappedBy="user")
 	private Set<UserRole> userRoles;
+
+	public User (String email) {
+		this.email = email;
+	}
 	
 	@Builder
 	public User(String email, String name, String password) {
