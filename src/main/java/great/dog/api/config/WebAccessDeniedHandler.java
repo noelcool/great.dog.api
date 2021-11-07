@@ -40,14 +40,6 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
                     }
                 }
             }
-//            if (!Objects.isNull(authentication) && ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VIEW"))) {
-//                request.setAttribute("msg", "접근 권한이 없습니다");
-//                request.setAttribute("nextPage", "/v1");
-//            } else {
-//                request.setAttribute("msg", "로그인 권한이 없습니다");
-//                request.setAttribute("nextPage", "/login");
-//                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//            }
         } else {
             logger.info(e.getClass().getCanonicalName());
         }

@@ -26,7 +26,7 @@ public class LoginController {
     }
 
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public String index(@AuthenticationPrincipal SecurityUser securityUser) {
         if(securityUser != null) {
             if(securityUser.getRoleTypes().contains(UserRole.RoleType.ROLE_VIEW)) {

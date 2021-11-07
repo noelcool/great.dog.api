@@ -45,8 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
-                    .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
-                .and()
+                    .authenticationProvider(authenticationProvider())
                     .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
