@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/dogDisease")
+@RequestMapping("${spring.api}/dogDisease")
 public class DogDiseaseController {
 
     private final DogDiseaseService dogDiseaseService;

@@ -1,5 +1,6 @@
 spring:
   version: '@project.version@'
+  api: '/v1'
   application:
     name: great-dogs
   profiles:

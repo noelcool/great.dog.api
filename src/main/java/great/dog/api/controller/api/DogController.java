@@ -16,8 +16,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@Tag(name = "dog", description ="dog")
-@RequestMapping("/v1/dog")
+//@Tag(name = "dog", description ="dog")
+@RequestMapping("${spring.api}/dog")
 public class DogController {
 
     private final DogService dogService;

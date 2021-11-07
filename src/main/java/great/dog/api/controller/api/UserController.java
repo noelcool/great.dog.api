@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/user")
+@RequestMapping("${spring.api}/user")
 public class UserController {
 
 	private final UserService userService;

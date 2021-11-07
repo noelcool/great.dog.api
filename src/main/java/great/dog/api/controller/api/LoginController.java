@@ -79,7 +79,6 @@ public class LoginController {
         return passwordEncoder.encode(password);
     }
 
-
     @ResponseBody
     @PostMapping(value = "/join")
     public ResponseEntity<DefaultRes<?>> join(@RequestBody UserDto.SaveRequest dto){

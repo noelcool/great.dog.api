@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/dogCondition")
+@RequestMapping("${spring.api}/dogCondition")
 public class DogConditionController {
 
     private final DogConditionService dogConditionService;
