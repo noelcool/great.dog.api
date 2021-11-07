@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="cmm/layout_login">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DEMO</title>
+<title>GREAT DOG</title>
 
 <link rel="shortcut icon" th:href="@{/static/img/doggy_icon.png}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -68,49 +72,56 @@ hr.separator {
 
 </head>
 
-<body>
+<section layout:fragment="f-content">
 	<div class="login_wrapper">
-		<section>
-			<h1><img th:src="@{/static/img/like.png}" width="50" height="auto" alt="demo" id="btn_loginHome"></h1>
+			<h1><img th:src="@{/static/img/doggy_icon.png}" width="50" height="auto" alt="demo" id="btn_loginHome"></h1>
 			<form method="post" th:action="@{/templates/login}">
 				<div>
-					<input type="text" name="username" class="form-control" placeholder="username" autocomplete="off" required/>
+					<input type="text" name="email" class="form-control" placeholder="email" autocomplete="off" required/>
 				</div>
 				<div style="margin-bottom: 50px;">
-					<input type="password" name="password" class="form-control" placeholder="Password" autocomplete="off" required/>
+					<input type="password" name="password" class="form-control" placeholder="password" autocomplete="off" required/>
 				</div>
 				<div>
-					<button type="button" class="btn btn-info btn-large form-control" id="btn_login">로그인</button>
+					<button type="button" class="btn btn-info btn-large form-control" id="btn_login">Login</button>
+				</div>
+				<div>
+					<button type="button" class="btn btn-info btn-large form-control" id="btn_joinForm">Join</button>
 				</div>
 			</form>
 
 			<hr class="separator"/>
 			<div>
-				<h1>DEMO</h1>
-				<p>©2019 All Rights Reserved.</p>
+				<h1>GREAT DOG</h1>
+				<p>©2021 All Rights Reserved.</p>
 			</div>
-		</section>
 	</div>
+</section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script>
-$(document.body).delegate(":input", "keyup", function (e) {
-	if (e.which == 13)
-		$("#btn_login").trigger("click");
-});
+<th:block layout:fragment="f-script">
+	<script>
+		$(document.body).delegate(":input", "keyup", function (e) {
+			if (e.which == 13)
+				$("#btn_login").trigger("click");
+		});
+		$("#btn_login").on("click", function() {
+			debugger;
+			var username = $("input[name='username']").val(), password = $("input[name='password']").val();
+			if (username == "") {
+				alert("사용자이름을 입력하세요");
+				return false;
+			} else if (password == "") {
+				alert("비밀번호를 입력하세요");
+				return false;
+			}
+			$(this).closest("form").submit();
+		});
 
-$("#btn_login").on("click", function() {
-	var username = $("input[name='username']").val(), password = $("input[name='password']").val();
-	if (username == "") {
-		alert("사용자이름을 입력하세요");
-		return false;
-	} else if (password == "") {
-		alert("비밀번호를 입력하세요");
-		return false;
-	}
-	$(this).closest("form").submit();
-});
-</script>
-</body>
+		$("#btn_joinForm").on("click", function() {
+			location.href = "[[@{/join}]]";
+		});
+	</script>
+</th:block>
 </html>

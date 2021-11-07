@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 public class SecurityUser extends User implements UserDetails {
 
     // 인증 및 인가에 이용하는 필드 값
-    private final boolean accountNonExpired;
-    private final boolean accountNonlocked;
-    private final boolean credentialsNonExpired;
-    private final boolean enabled;
+    private final boolean accountNonExpired; // 계정 만료 여부
+    private final boolean accountNonlocked; // 계정 잠금 여부
+    private final boolean credentialsNonExpired; // 패스워드 만료 여부
+    private final boolean enabled; //계정 사용 가능 여부
 
     public SecurityUser(User user) {
         super();

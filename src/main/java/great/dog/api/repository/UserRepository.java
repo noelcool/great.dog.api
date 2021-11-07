@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(attributePaths = "userRoles") //left outer join으로 보유권한 리스트를 바로 가져온다
     Optional<User> findWithUserRolesByEmail(String email);
 
+    boolean existsByEmail(String email);
 }

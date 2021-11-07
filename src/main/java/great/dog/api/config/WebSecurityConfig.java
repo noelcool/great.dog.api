@@ -28,13 +28,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/**", "/api-docs/**", "/resource/**", "/images/**", "/resources/templates/**", "/logins");
+        web.ignoring().antMatchers("/static/**", "/api-docs/**", "/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().
-                antMatchers("/", "/login", "/login/**").permitAll().
+                antMatchers("/", "/login", "/join", "/swagger-ui.html", "/login/**").permitAll().
                 antMatchers("/v1", "/v1/**").access("hasRole('ROLE_VIEW')").
                 anyRequest().authenticated()
                 .and()

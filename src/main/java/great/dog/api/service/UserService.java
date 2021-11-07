@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import great.dog.api.domain.dto.UserDto;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
+	private final PasswordEncoder passwordEncoder;
 
 	public List<UserDto.Response> findAll() {
 		List<User> users = userRepository.findAll();
@@ -55,13 +57,12 @@ public class UserService {
 	}
 
 	public int save(UserDto.SaveRequest dto) {
-		if (!dto.getPassword().equals(dto.getPassword_re())) return -1;
 		Optional<User> user = userRepository.findByName(dto.getName());
 		if (user.isPresent()) return -2;
 		User.UserBuilder userBuilder = User.builder().
+				email(dto.getEmail()).
 				name(dto.getName()).
-				password(dto.getPassword()).
-				nickName(dto.getNickName());
+				password(passwordEncoder.encode(dto.getPassword()));
 		return userRepository.save(userBuilder.build()) != null ? 1 : 0; //great.dog.api.domain.entity.User@3a2749e0
 	}
 
@@ -71,14 +72,22 @@ public class UserService {
 		if (!user.isPresent()) return -1;
 		user.ifPresent(u -> {
 			u.setPassword(dto.getPassword());
-			u.setNickName(dto.getNickName());
+			//u.setNickName(dto.getNickName());
 			u.setDelYn(dto.getDelYn());
 			userRepository.save(u);
 		});
 		return 1;
 	}
 
+	public boolean existsByEmail(String email) {
+		return userRepository.existsByEmail(email);
+	}
 
-
+	public UserDto.SaveRequest join(UserDto.SaveRequest value) {
+		//User user = save(value);
+		//saveUserRole(user, RoleType.ROLE_VIEW);
+		//return user.getSimple();
+		return null;
+	}
 
 }

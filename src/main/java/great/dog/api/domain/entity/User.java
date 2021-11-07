@@ -31,8 +31,6 @@ public class User extends BaseEntity implements Serializable {
 	
 	private String password;
 	
-	private String nickName;
-	
 	private Timestamp loginTimestamp;
 	
 	@OneToMany(mappedBy="user")
@@ -45,11 +43,10 @@ public class User extends BaseEntity implements Serializable {
 	private Set<UserRole> userRoles;
 	
 	@Builder
-	public User(String email, String name, String password, String nickName) {
+	public User(String email, String name, String password) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
-		this.nickName = nickName;
 	}
 
 }
