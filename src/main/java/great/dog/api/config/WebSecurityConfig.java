@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                     .authenticationProvider(authenticationProvider())
-                .csrf() //csrf() 설정에서 csrf 토큰을 요구하지 않는 antMatchers를 설정하고, 그 외에도 단순 조회 기능을 제공하는 GET, HEAD, TRACE, OPTIONS method의 경우 CORS 처리를 하지않도록 requireCsrfProtectionMatcheㄱ
+                .csrf() //csrf() 설정에서 csrf 토큰을 요구하지 않는 antMatchers를 설정하고, 그 외에도 단순 조회 기능을 제공하는 GET, HEAD, TRACE, OPTIONS method의 경우 CORS 처리를 하지않도록 requireCsrfProtectionMatcher
                 .ignoringAntMatchers(allowedUrls)
                 .requireCsrfProtectionMatcher(new CsrfRequireMatcher())
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
