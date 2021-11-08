@@ -12,6 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.webAccessDeniedHandler = webAccessDeniedHandler;
     }
 
+    private final static String[] allowedUrls = {"/", "/login", "/join", "/v1/**", "/token"};
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/**", "/api-docs/**", "/resources/**");
@@ -33,8 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().
-                antMatchers("/", "/login", "/join", "/login/**", "/v1/**").permitAll().
+        http.
+                headers().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                .and().authorizeRequests().
+                antMatchers(allowedUrls).permitAll().
                 antMatchers("/v1","/v1/**" ,"/swagger-ui.html", "/swagger-ui/**").access("hasRole('ROLE_VIEW')").
                 anyRequest().authenticated()
                 .and()
@@ -46,7 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                     .authenticationProvider(authenticationProvider())
-                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .csrf() //csrf() 설정에서 csrf 토큰을 요구하지 않는 antMatchers를 설정하고, 그 외에도 단순 조회 기능을 제공하는 GET, HEAD, TRACE, OPTIONS method의 경우 CORS 처리를 하지않도록 requireCsrfProtectionMatcheㄱ
+                .ignoringAntMatchers(allowedUrls)
+                .requireCsrfProtectionMatcher(new CsrfRequireMatcher())
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
     @Bean
@@ -61,7 +73,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // userDetailSErvice를 설정한 경우 비밀번호 암호화를 반드시 설정해야 한다
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
+    static class CsrfRequireMatcher implements RequestMatcher {
+        private static final Pattern ALLOWED_METHODS = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
+        @Override
+        public boolean matches(HttpServletRequest request) {
+            if (ALLOWED_METHODS.matcher(request.getMethod()).matches())
+                return false;
+            return true;
+        }
+    }
 }
