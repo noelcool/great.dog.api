@@ -40,21 +40,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-                headers().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
-                .and().authorizeRequests().
+        http
+                //headers().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                .authorizeRequests().
                 antMatchers(allowedUrls).permitAll().
-                antMatchers("/v1","/v1/**" ,"/swagger-ui.html", "/swagger-ui/**").access("hasRole('ROLE_VIEW')").
+                antMatchers("/swagger-ui.html", "/swagger-ui/**").access("hasRole('ROLE_VIEW')").
                 anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").defaultSuccessUrl("/swagger-ui.html", true)
                     .usernameParameter("username").passwordParameter("password")
-                .and()
-                    .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
-                .and()
-                    .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
-                .and()
-                    .authenticationProvider(authenticationProvider())
+                .and().logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
+                .and().exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
+                .and().authenticationProvider(authenticationProvider())
                 .csrf() //csrf() 설정에서 csrf 토큰을 요구하지 않는 antMatchers를 설정하고, 그 외에도 단순 조회 기능을 제공하는 GET, HEAD, TRACE, OPTIONS method의 경우 CORS 처리를 하지않도록 requireCsrfProtectionMatcher
                 .ignoringAntMatchers(allowedUrls)
                 .requireCsrfProtectionMatcher(new CsrfRequireMatcher())
@@ -73,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // userDetailSErvice를 설정한 경우 비밀번호 암호화를 반드시 설정해야 한다
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 

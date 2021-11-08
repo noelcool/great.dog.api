@@ -25,8 +25,8 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 		HttpServletResponse res = (HttpServletResponse) response;
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
-		//res.setHeader("Access-Control-Max-Age", "3600");
-		//res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Origin, Content-Type, Accept, X-API-KEY");
+		res.setHeader("Access-Control-Max-Age", "3600");
+		res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Origin, Content-Type, Accept, X-API-KEY");
         chain.doFilter(request, response);
 	}
 
